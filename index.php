@@ -1,7 +1,10 @@
 <?php
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+$category_list = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
+$category_item = 0;
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -46,10 +49,13 @@ $show_complete_tasks = rand(0, 1);
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
+                    <?php while ($category_item < count($category_list)): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Название проекта</a>
+                            <a class="main-navigation__list-item-link" href="#"><?= $category_list[$category_item]; ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
+                        <?php $category_item++; ?>
+                    <?php endwhile; ?>
                     </ul>
                 </nav>
 
