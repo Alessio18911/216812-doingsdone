@@ -8,37 +8,37 @@ $task_list = [
         'title' => 'Собеседование в IT компании',
         'expiry_date' => '01.12.2019',
         'category' => 'Работа',
-        'task_done' => false
+        'status' => false
     ],
     [
         'title' => 'Выполнить тестовое задание',
         'expiry_date' => '25.12.2019',
         'category' => 'Работа',
-        'task_done' => false
+        'status' => false
     ],
     [
         'title' => 'Сделать задание первого раздела',
         'expiry_date' => '21.12.2019',
         'category' => 'Учёба',
-        'task_done' => true
+        'status' => true
     ],
     [
         'title' => 'Встреча с другом',
         'expiry_date' => '22.12.2019',
         'category' => 'Входящие',
-        'task_done' => false
+        'status' => false
     ],
     [
         'title' => 'Купить корм для кота',
         'expiry_date' => '',
         'category' => 'Домашние дела',
-        'task_done' => false
+        'status' => false
     ],
     [
         'title' => 'Заказать пиццу',
         'expiry_date' => '',
         'category' => 'Домашние дела',
-        'task_done' => false
+        'status' => false
     ]
 ];
 $task_item = 0;
@@ -127,11 +127,13 @@ $task_item = 0;
                 </div>
 
                 <table class="tasks">
+                    <?php while($task_item < count($task_list)): ?>
+                    <?php if(!$task_list[$task_item]['status']): ?>
                     <tr class="tasks__item task">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                <span class="checkbox__text">Сделать главную страницу Дела в порядке</span>
+                                <span class="checkbox__text"><?= $task_list[$task_item]['title']; ?></span>
                             </label>
                         </td>
 
@@ -139,23 +141,25 @@ $task_item = 0;
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"></td>
+                        <td class="task__date"><?= $task_list[$task_item]['expiry_date']; ?></td>
                     </tr>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-                    <?php if($show_complete_tasks): ?>
-                    <tr class="tasks__item task task--completed">
+                    <?php elseif($show_complete_tasks): ?>
+                    <tr class="tasks__item task <?= $task_list[$task_item]['status'] ? 'task--completed':''; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
+                                <span class="checkbox__text"><?= $task_list[$task_item]['title']; ?></span>
                             </label>
                         </td>
-                        <td class="task__date">10.10.2019</td>
+                        <td class="task__date"><?= $task_list[$task_item]['expiry_date']; ?></td>
 
                         <td class="task__controls">
                         </td>
                     </tr>
                     <?php endif ?>
+                    <?= $task_item++; ?>
+                    <? endwhile; ?>
                 </table>
             </main>
         </div>
