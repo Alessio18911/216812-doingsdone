@@ -3,6 +3,45 @@
 $show_complete_tasks = rand(0, 1);
 $category_list = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
 $category_item = 0;
+$task_list = [
+    [
+        'title' => 'Собеседование в IT компании',
+        'expiry_date' => '01.12.2019',
+        'category' => 'Работа',
+        'task_done' => false
+    ],
+    [
+        'title' => 'Выполнить тестовое задание',
+        'expiry_date' => '25.12.2019',
+        'category' => 'Работа',
+        'task_done' => false
+    ],
+    [
+        'title' => 'Сделать задание первого раздела',
+        'expiry_date' => '21.12.2019',
+        'category' => 'Учёба',
+        'task_done' => true
+    ],
+    [
+        'title' => 'Встреча с другом',
+        'expiry_date' => '22.12.2019',
+        'category' => 'Входящие',
+        'task_done' => false
+    ],
+    [
+        'title' => 'Купить корм для кота',
+        'expiry_date' => '',
+        'category' => 'Домашние дела',
+        'task_done' => false
+    ],
+    [
+        'title' => 'Заказать пиццу',
+        'expiry_date' => '',
+        'category' => 'Домашние дела',
+        'task_done' => false
+    ]
+];
+$task_item = 0;
 ?>
 
 <!DOCTYPE html>
