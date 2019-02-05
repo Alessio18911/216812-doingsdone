@@ -44,7 +44,7 @@ $task_list = [
 function countTasks($category_value, $task_list) {
     $tasks_sum = 0;
 
-    foreach($task_list as $tasks_key => $tasks_value) {
+    foreach($task_list as $tasks_value) {
         if($category_value == $tasks_value['category']) {
             $tasks_sum += 1;
         }
@@ -97,7 +97,7 @@ function countTasks($category_value, $task_list) {
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                    <?php foreach($category_list as $category_item => $category_value): ?>
+                    <?php foreach($category_list as $category_value): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?= $category_value; ?></a>
                             <span class="main-navigation__list-item-count"><?= countTasks($category_value, $task_list); ?></span>
@@ -135,7 +135,7 @@ function countTasks($category_value, $task_list) {
                 </div>
 
                 <table class="tasks">
-                    <?php foreach($task_list as $task_key => $task_value): ?>
+                    <?php foreach($task_list as $task_value): ?>
                     <?php if(!$task_value['status']): ?>
                     <tr class="tasks__item task">
                         <td class="task__select">
