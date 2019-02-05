@@ -5,5 +5,8 @@
 *.pdf
 *.psd
 *.sublime*
+.vscode/*
 Thumbs.db
 vendor
+.env
+mysql_data
