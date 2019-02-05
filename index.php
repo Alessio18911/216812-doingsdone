@@ -18,7 +18,7 @@ $task_list = [
     [
         'title' => 'Сделать задание первого раздела',
         'expiry_date' => '21.12.2019',
-        'category' => 'Учёба',
+        'category' => 'Учеба',
         'status' => true
     ],
     [
@@ -40,6 +40,17 @@ $task_list = [
         'status' => false
     ]
 ];
+
+function countTasks($category_value, $task_list) {
+    $tasks_sum = 0;
+
+    foreach($task_list as $tasks_key => $tasks_value) {
+        if($category_value == $tasks_value['category']) {
+            $tasks_sum += 1;
+        }
+    }
+    return $tasks_sum;
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,10 +97,10 @@ $task_list = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                    <?php foreach($category_list as $category_key => $category_value): ?>
+                    <?php foreach($category_list as $category_value): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?= $category_value; ?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?= countTasks($category_value, $task_list); ?></span>
                         </li>
                     <?php endforeach; ?>
                     </ul>
@@ -124,7 +135,7 @@ $task_list = [
                 </div>
 
                 <table class="tasks">
-                    <?php foreach($task_list as $task_key => $task_value): ?>
+                    <?php foreach($task_list as $task_value): ?>
                     <?php if(!$task_value['status']): ?>
                     <tr class="tasks__item task">
                         <td class="task__select">
