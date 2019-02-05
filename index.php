@@ -41,7 +41,7 @@ $task_list = [
     ]
 ];
 
-function countTasks(string $category_value, array $task_list):int {
+function countTasks(string $category_value, array $task_list): int {
     $tasks_sum = 0;
 
     foreach($task_list as $tasks_value) {
