@@ -45,8 +45,8 @@ function countTasks(string $category_value, array $task_list): int {
     $tasks_sum = 0;
 
     foreach($task_list as $tasks_value) {
-        if($category_value == $tasks_value['category']) {
-            $tasks_sum += 1;
+        if($category_value === $tasks_value['category']) {
+            $tasks_sum++;
         }
     }
     return $tasks_sum;
