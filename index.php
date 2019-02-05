@@ -2,7 +2,6 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $category_list = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
-$category_item = 0;
 $task_list = [
     [
         'title' => 'Собеседование в IT компании',
@@ -41,7 +40,6 @@ $task_list = [
         'status' => false
     ]
 ];
-$task_item = 0;
 ?>
 
 <!DOCTYPE html>
@@ -88,13 +86,12 @@ $task_item = 0;
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                    <?php while ($category_item < count($category_list)): ?>
+                    <?php foreach($category_list as $category_key => $category_value): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?= $category_list[$category_item]; ?></a>
+                            <a class="main-navigation__list-item-link" href="#"><?= $category_value; ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
-                        <?php $category_item++; ?>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                     </ul>
                 </nav>
 
@@ -121,19 +118,19 @@ $task_item = 0;
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if($show_complete_tasks): ?>checked<?php endif ?>>
+                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?= $show_complete_tasks ? 'checked':''; ?>>
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
 
                 <table class="tasks">
-                    <?php while($task_item < count($task_list)): ?>
-                    <?php if(!$task_list[$task_item]['status']): ?>
+                    <?php foreach($task_list as $task_key => $task_value): ?>
+                    <?php if(!$task_value['status']): ?>
                     <tr class="tasks__item task">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                <span class="checkbox__text"><?= $task_list[$task_item]['title']; ?></span>
+                                <span class="checkbox__text"><?= $task_value['title']; ?></span>
                             </label>
                         </td>
 
@@ -141,25 +138,24 @@ $task_item = 0;
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"><?= $task_list[$task_item]['expiry_date']; ?></td>
+                        <td class="task__date"><?= $task_value['expiry_date']; ?></td>
                     </tr>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
                     <?php elseif($show_complete_tasks): ?>
-                    <tr class="tasks__item task <?= $task_list[$task_item]['status'] ? 'task--completed':''; ?>">
+                    <tr class="tasks__item task <?= $task_value['status'] ? 'task--completed':''; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text"><?= $task_list[$task_item]['title']; ?></span>
+                                <span class="checkbox__text"><?= $task_value['title']; ?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?= $task_list[$task_item]['expiry_date']; ?></td>
+                        <td class="task__date"><?= $task_value['expiry_date']; ?></td>
 
                         <td class="task__controls">
                         </td>
                     </tr>
                     <?php endif ?>
-                    <?= $task_item++; ?>
-                    <? endwhile; ?>
+                    <? endforeach; ?>
                 </table>
             </main>
         </div>
