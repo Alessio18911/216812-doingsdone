@@ -5,6 +5,7 @@
 *.pdf
 *.psd
 *.sublime*
+.vscode/*
 Thumbs.db
 vendor
 .env
