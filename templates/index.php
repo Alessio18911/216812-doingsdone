@@ -23,7 +23,7 @@
 <table class="tasks">
     <?php foreach($task_list as $task): ?>
     <?php if(!$task['status']): ?>
-    <tr class="tasks__item task">
+    <tr class="tasks__item task <?=isDateExpired($task['expiry_date']) ? 'task--important':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">

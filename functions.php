@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Europe/Minsk');
+
 function include_template(string $name, array $data): string {
     $name = 'templates/' . $name;
     $result = '';
@@ -25,5 +27,14 @@ function countTasks(string $category, array $task_list): int {
         }
     }
     return $tasks_sum;
+}
+
+function isDateExpired(string $date) {
+    if($date) {
+        $current_date = time();
+        $expiry_date = strtotime($date);
+
+        if(floor(($expiry_date - $current_date)/3600) <= 24) return true;
+    }
 }
 ?>
