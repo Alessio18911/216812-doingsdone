@@ -5,7 +5,7 @@ $category_list = ['Входящие', 'Учеба', 'Работа', 'Домаш�
 $task_list = [
     [
         'title' => 'Собеседование в IT компании',
-        'expiry_date' => '01.12.2019',
+        'expiry_date' => '10.02.2019',
         'category' => 'Работа',
         'status' => false
     ],
@@ -50,6 +50,17 @@ function countTasks(string $category_value, array $task_list): int {
         }
     }
     return $tasks_sum;
+}
+
+function defineExpDate(string $expiry_date) {
+    if($expiry_date) {
+        date_default_timezone_set('Europe/Minsk');
+
+        $current_date = time();
+        $expiry_date = strtotime($expiry_date);
+
+        if(floor(($expiry_date - $current_date)/3600) <= 24) return true;
+    }
 }
 ?>
 
@@ -137,7 +148,7 @@ function countTasks(string $category_value, array $task_list): int {
                 <table class="tasks">
                     <?php foreach($task_list as $task_value): ?>
                     <?php if(!$task_value['status']): ?>
-                    <tr class="tasks__item task">
+                    <tr class="tasks__item task <?= defineExpDate($task_value['expiry_date']) ? 'task--important':'task'; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
