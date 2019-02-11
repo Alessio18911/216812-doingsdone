@@ -5,7 +5,7 @@ $category_list = ['Входящие', 'Учеба', 'Работа', 'Домаш�
 $task_list = [
     [
         'title' => 'Собеседование в IT компании',
-        'expiry_date' => '01.12.2019',
+        'expiry_date' => '10.02.2019',
         'category' => 'Работа',
         'status' => false
     ],
@@ -40,17 +40,6 @@ $task_list = [
         'status' => false
     ]
 ];
-
-function countTasks(string $category, array $task_list): int {
-    $tasks_sum = 0;
-
-    foreach($task_list as $task) {
-        if($category === $task['category']) {
-            $tasks_sum++;
-        }
-    }
-    return $tasks_sum;
-}
 
 require_once('functions.php');
 

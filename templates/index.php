@@ -15,7 +15,6 @@
     </nav>
 
     <label class="checkbox">
-        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
         <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?=$show_complete_tasks ? 'checked':''; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
@@ -24,7 +23,7 @@
 <table class="tasks">
     <?php foreach($task_list as $task): ?>
     <?php if(!$task['status']): ?>
-    <tr class="tasks__item task">
+    <tr class="tasks__item task <?=isTaskExpired($task['expiry_date']) ? 'task--important':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
@@ -38,7 +37,7 @@
 
         <td class="task__date"><?=htmlspecialchars($task['expiry_date']); ?></td>
     </tr>
-    <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
+
     <?php elseif($show_complete_tasks): ?>
     <tr class="tasks__item task <?=$task['status'] ? 'task--completed':''; ?>">
         <td class="task__select">
