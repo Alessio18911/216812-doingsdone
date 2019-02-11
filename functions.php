@@ -32,11 +32,10 @@ function countTasks(string $category, array $task_list): int {
 function isTaskExpired(string $end_date): bool {
     if(!$end_date) {
         return false;
-    } else {
-        $current_date = time();
-        $expiry_date = strtotime($end_date);
-
-        return floor(($expiry_date - $current_date)/3600) <= 24;
     }
+
+    $current_date = time();
+    $expiry_date = strtotime($end_date);
+
+    return floor(($expiry_date - $current_date)/3600) <= 24;
 }
-?>

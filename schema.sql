@@ -1,0 +1,29 @@
+CREATE DATABASE doingsdone
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+USE doingsdone;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_name CHAR(64) NOT NULL UNIQUE,
+  password CHAR(64) NOT NULL UNIQUE,
+  register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE projects (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  project_title CHAR(128) NOT NULL UNIQUE,
+  user_id INT
+);
+
+CREATE TABLE task_list (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  project_id INT
+  task_name CHAR NOT NULL UNIQUE,
+  opened TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  closed TIMESTAMP,
+  status INT DEFAULT SET 0,
+  expiry TIMESTAMP,
+  file CHAR(128)
+);
