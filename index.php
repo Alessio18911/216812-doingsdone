@@ -41,17 +41,6 @@ $task_list = [
     ]
 ];
 
-function countTasks(string $category, array $task_list): int {
-    $tasks_sum = 0;
-
-    foreach($task_list as $task) {
-        if($category === $task['category']) {
-            $tasks_sum++;
-        }
-    }
-    return $tasks_sum;
-}
-
 require_once('functions.php');
 
 $page_content = include_template('index.php', [
