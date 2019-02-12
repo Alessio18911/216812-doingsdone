@@ -44,8 +44,31 @@ INSERT INTO tasks(user_id, project_id, name) VALUES('3', '8', 'Ограбить 
 INSERT INTO tasks(user_id, project_id, name) VALUES('3', '8', 'Взять короля в плен');
 INSERT INTO tasks(user_id, project_id, name) VALUES('3', '9', 'Пить ром, есть до упаду, петь во всё горло, танцевать на бочке');
 
-INSERT INTO tasks(user_id, project_id, name) VALUES('4', '10', 'Найти прыщик на тебе у слона');
+INSERT INTO tasks(user_id, project_id, name) VALUES('4', '10', 'Найти прыщик на теле у слона');
 INSERT INTO tasks(user_id, project_id, name) VALUES('4', '10', 'Всех разоблачить');
 INSERT INTO tasks(user_id, project_id, name) VALUES('4', '10', 'Погоня за бременскими музыкантами');
 INSERT INTO tasks(user_id, project_id, name) VALUES('4', '11', 'Всячески поддерживать короля, когда ему грустно');
 INSERT INTO tasks(user_id, project_id, name) VALUES('4', '11', 'Вытереть сопли королю, когда он плачет');
+
+INSERT INTO tasks(user_id, project_id, name) VALUES('5', '12', 'Сидеть и грустить у окна');
+INSERT INTO tasks(user_id, project_id, name) VALUES('5', '12', 'Мечтать о нём');
+INSERT INTO tasks(user_id, project_id, name) VALUES('5', '12', 'Ничего не хотеть');
+INSERT INTO tasks(user_id, project_id, name) VALUES('5', '13', 'Выкидывать фортели папеньке-королю');
+INSERT INTO tasks(user_id, project_id, name) VALUES('5', '13', 'Ничего не хотеть');
+
+
+
+-- Запросы по заданию
+SELECT users.name, projects.title FROM users
+	JOIN projects
+	ON users.id = projects.user_id
+	WHERE users.id = 1;
+
+SELECT projects.title, tasks.name FROM projects
+	JOIN tasks
+	ON projects.id = tasks.project_id
+	WHERE projects.title = 'Любовь';
+
+UPDATE tasks SET status = 0 WHERE id = 6;
+
+UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина' WHERE id = 29;
