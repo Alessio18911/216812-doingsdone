@@ -15,12 +15,12 @@ CREATE TABLE users (
 CREATE TABLE projects (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title CHAR(128) NOT NULL,
-  user_id INT
+  user_id INT NOT NULL
 );
 
 CREATE TABLE tasks (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
+  user_id INT NOT NULL,
   project_id INT,
   name CHAR(128) NOT NULL,
   created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
