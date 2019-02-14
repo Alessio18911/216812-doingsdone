@@ -69,6 +69,6 @@ SELECT projects.title, tasks.name FROM projects
 	ON projects.id = tasks.project_id
 	WHERE projects.title = 'Любовь';
 
-UPDATE tasks SET status = 0 WHERE id = 6;
+UPDATE tasks SET status = 1 WHERE id = 6;
 
 UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина' WHERE id = 29;
