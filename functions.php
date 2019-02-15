@@ -22,7 +22,7 @@ function countTasks(string $category, array $task_list): int {
     $tasks_sum = 0;
 
     foreach($task_list as $task) {
-        if($category === $task['category']) {
+        if($category === $task['project_title']) {
             $tasks_sum++;
         }
     }

@@ -21,13 +21,14 @@
 </div>
 
 <table class="tasks">
-    <?php foreach($task_list as $task): ?>
-    <?php if(!$task['status']): ?>
-    <tr class="tasks__item task <?=isTaskExpired($task['expiry_date']) ? 'task--important':''; ?>">
+    <?php foreach($task_list as $key => $task): ?>
+    <?php if($task['status'] === 0): ?>
+
+    <tr class="tasks__item task <?=isTaskExpired($task['expires_at']) ? 'task--important':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                <span class="checkbox__text"><?=htmlspecialchars($task['title']); ?></span>
+                <span class="checkbox__text"><?=htmlspecialchars($task['name']); ?></span>
             </label>
         </td>
 
@@ -35,18 +36,18 @@
             <a class="download-link" href="#">Home.psd</a>
         </td>
 
-        <td class="task__date"><?=htmlspecialchars($task['expiry_date']); ?></td>
+        <td class="task__date"><?=htmlspecialchars($task['expires_at']); ?></td>
     </tr>
 
     <?php elseif($show_complete_tasks): ?>
-    <tr class="tasks__item task <?=$task['status'] ? 'task--completed':''; ?>">
+    <tr class="tasks__item task <?php if($task['status'] === 1): ?>task--completed<? endif; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                <span class="checkbox__text"><?=htmlspecialchars($task['title']); ?></span>
+                <span class="checkbox__text"><?=htmlspecialchars($task['name']); ?></span>
             </label>
         </td>
-        <td class="task__date"><?=htmlspecialchars($task['expiry_date']); ?></td>
+        <td class="task__date"><?=htmlspecialchars($task['expires_at']); ?></td>
 
         <td class="task__controls">
         </td>
