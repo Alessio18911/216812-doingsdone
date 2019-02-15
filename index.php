@@ -46,7 +46,7 @@ require_once('functions.php');
 $link = mysqli_connect('216812-doingsdone', 'root', '', 'doingsdone');
 mysqli_set_charset($link, 'utf8');
 
-$user_id = '1';
+$user_id = 1;
 $sql_proj = 'SELECT projects.title FROM projects
                 JOIN users ON projects.user_id = users.id
                 WHERE users.id = %s ';
