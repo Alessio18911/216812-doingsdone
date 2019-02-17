@@ -1,8 +1,7 @@
 <?php
-
 $getConnection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
-$category_list = getTaskCategories($getConnection, 2);
-$task_list = getTaskList($getConnection, 2);
+$category_list = getTaskCategories($getConnection, 1);
+$task_list = getTaskList($getConnection, 1);
 
 //Установить соединение с БД
 function getConnection($dB_localhost, $dB_user, $dB_root, $dB_title) {
