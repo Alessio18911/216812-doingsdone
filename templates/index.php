@@ -22,7 +22,7 @@
 
 <table class="tasks">
     <?php foreach($task_list as $task): ?>
-    <?php if($task['status'] == 0): ?>
+    <?php if(!$task['status']): ?>
     <tr class="tasks__item task <?=isTaskExpired($task['expires_at']) ? 'task--important':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
@@ -39,7 +39,7 @@
     </tr>
 
     <?php elseif($show_complete_tasks): ?>
-    <tr class="tasks__item task <?php if($task['status'] == 1): ?>task--completed<? endif; ?>">
+    <tr class="tasks__item task <?=$task['status'] ? 'task--completed':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden" type="checkbox" checked>

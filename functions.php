@@ -18,11 +18,11 @@ function include_template(string $name, array $data): string {
     return $result;
 }
 
-function countTasks(string $category_title, array $task_list): int {
+function countTasks(string $category_name, array $task_list): int {
     $tasks_sum = 0;
 
     foreach($task_list as $task) {
-        if($category_title === $task['categories_name']) {
+        if($category_name === $task['categories_name']) {
             $tasks_sum++;
         }
     }
