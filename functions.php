@@ -18,18 +18,18 @@ function include_template(string $name, array $data): string {
     return $result;
 }
 
-function countTasks(string $category, array $task_list): int {
+function countTasks(string $category_name, array $task_list): int {
     $tasks_sum = 0;
 
     foreach($task_list as $task) {
-        if($category === $task['category']) {
+        if($category_name === $task['categories_name']) {
             $tasks_sum++;
         }
     }
     return $tasks_sum;
 }
 
-function isTaskExpired(string $end_date): bool {
+function isTaskExpired(string $end_date = null): bool {
     if(!$end_date) {
         return false;
     }
@@ -38,4 +38,13 @@ function isTaskExpired(string $end_date): bool {
     $expiry_date = strtotime($end_date);
 
     return floor(($expiry_date - $current_date)/3600) <= 24;
+}
+
+function formatDate(string $date = null): string {
+    if($date) {
+        $date = date_create($date);
+        return date_format($date, 'd.m.Y');
+    }
+
+    return '';
 }

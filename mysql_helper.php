@@ -1,4 +1,43 @@
 <?php
+function getConnection(string $host, string $user, string $password, string $database) {
+    $link = mysqli_connect($host, $user, $password, $database);
+
+    if(!$link) {
+        die("Ошибка подключения: " . mysqli_connect_error());
+    }
+
+    mysqli_set_charset($link, 'utf8');
+    mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+    return $link;
+}
+
+function getTaskCategories ($link, int $user_id): array {
+    $sql_cat = "SELECT categories.name FROM categories
+                JOIN users ON categories.user_id = users.id
+                WHERE users.id = $user_id";
+
+    $result = mysqli_query($link, sprintf($sql_cat, $user_id));
+
+    if(!$result) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+function getTaskList($link, int $user_id): array {
+    $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+        JOIN categories ON tasks.category_id = categories.id
+        JOIN users ON categories.user_id = users.id
+        WHERE users.id = $user_id";
+
+    $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
+    if(!$result) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
 
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных

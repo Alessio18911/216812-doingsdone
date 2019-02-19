@@ -1,47 +1,13 @@
 <?php
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
-$category_list = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
-$task_list = [
-    [
-        'title' => 'Собеседование в IT компании',
-        'expiry_date' => '10.02.2019',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    [
-        'title' => 'Выполнить тестовое задание',
-        'expiry_date' => '25.12.2019',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    [
-        'title' => 'Сделать задание первого раздела',
-        'expiry_date' => '21.12.2019',
-        'category' => 'Учеба',
-        'status' => true
-    ],
-    [
-        'title' => 'Встреча с другом',
-        'expiry_date' => '22.12.2019',
-        'category' => 'Входящие',
-        'status' => false
-    ],
-    [
-        'title' => 'Купить корм для кота',
-        'expiry_date' => '',
-        'category' => 'Домашние дела',
-        'status' => false
-    ],
-    [
-        'title' => 'Заказать пиццу',
-        'expiry_date' => '',
-        'category' => 'Домашние дела',
-        'status' => false
-    ]
-];
 
 require_once('functions.php');
+require_once('mysql_helper.php');
+
+$сonnection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
+$category_list = getTaskCategories($сonnection, 1);
+$task_list = getTaskList($сonnection, 1);
 
 $page_content = include_template('index.php', [
     'task_list' => $task_list,
@@ -53,7 +19,7 @@ $layout_content = include_template('layout.php', [
     'task_list' => $task_list,
     'content' => $page_content,
     'page_title' => 'Дела в порядке',
-    'user' => 'Константин',
+    'user' => 'Глупый король',
 
 ]);
 
