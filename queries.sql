@@ -21,40 +21,40 @@ INSERT INTO categories(name, user_id) VALUES('Любовь', '5');
 INSERT INTO categories(name, user_id) VALUES('Капризы', '5');
 
 -- Заполнение таблицы "Tasks"
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '1', 'Осчастливить подданых', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '1', 'Наказать нерадивых слуг', '19.02.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Нанять учителя музыки', '1.03.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Купить клавесин', '1.03.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Проконтролировать уроки', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '3', 'Найти Гениального сыщика', '19.02.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Проводить балы каждую неделю', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Выезжать в карете с охранниками ежедневно', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Пригласить заграничных певцов', '');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '1', 'Осчастливить подданых', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '1', 'Наказать нерадивых слуг', '2019-02-20');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Нанять учителя музыки', '2019-03-01');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Купить клавесин', '2019-03-01');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Проконтролировать уроки', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '3', 'Найти Гениального сыщика', '2019-02-20');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Проводить балы каждую неделю', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Выезжать в карете с охранниками ежедневно', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Пригласить заграничных певцов', NULL);
 
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Искать площадки для выступлений', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Выступать с друзьями', '25.02.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '6', 'Воздыхать о принцессе', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '6', 'Петь серенады принцессе', '');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Искать площадки для выступлений', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Выступать с друзьями', '2019-02-25');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '6', 'Воздыхать о принцессе', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '6', 'Петь серенады принцессе', NULL);
 
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Погадать на короля', '1.04.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Украсть еды', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Привести в чувство разбойников после вчерашнего пира', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Перебить весь отряд короля', '2.04.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Ограбить короля', '2.04.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Взять короля в плен', '2.04.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '9', 'Пить ром, есть до упаду, петь во всё горло, танцевать на бочке', '');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Погадать на короля', '2019-04-01');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Украсть еды', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '7', 'Привести в чувство разбойников после вчерашнего пира', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Перебить весь отряд короля', '2019-04-02');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Ограбить короля', '2019-04-02');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '8', 'Взять короля в плен', '2019-04-02');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('3', '9', 'Пить ром, есть до упаду, петь во всё горло, танцевать на бочке', NULL);
 
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Найти прыщик на теле у слона', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Всех разоблачить', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Погоня за бременскими музыкантами', '8.03.2019');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '11', 'Всячески поддерживать короля, когда ему грустно', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '11', 'Вытереть сопли королю, когда он плачет', '');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Найти прыщик на теле у слона', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Всех разоблачить', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '10', 'Погоня за бременскими музыкантами', '2019-03-08');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '11', 'Всячески поддерживать короля, когда ему грустно', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '11', 'Вытереть сопли королю, когда он плачет', NULL);
 
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Сидеть и грустить у окна', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Мечтать о нём', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Ничего не хотеть', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Выкидывать фортели папеньке-королю', '');
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Ничего не хотеть', '');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Сидеть и грустить у окна', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Мечтать о нём', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Ничего не хотеть', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Выкидывать фортели папеньке-королю', NULL);
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Ничего не хотеть', NULL);
 
 
 -- Запросы по заданию
@@ -70,4 +70,4 @@ SELECT categories.name, tasks.name FROM categories
 
 UPDATE tasks SET status = 1 WHERE id = 6;
 
-UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина', expires_at = "1.03.2019" WHERE id = 29;
+UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина', expires_at = "2019-03-01" WHERE id = 29;

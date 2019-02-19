@@ -35,7 +35,7 @@
             <a class="download-link" href="#">Home.psd</a>
         </td>
 
-        <td class="task__date"><?=htmlspecialchars($task['expires_at']); ?></td>
+        <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
     </tr>
 
     <?php elseif($show_complete_tasks): ?>
@@ -46,7 +46,8 @@
                 <span class="checkbox__text"><?=htmlspecialchars($task['name']); ?></span>
             </label>
         </td>
-        <td class="task__date"><?=htmlspecialchars($task['expires_at']); ?></td>
+
+        <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
 
         <td class="task__controls">
         </td>

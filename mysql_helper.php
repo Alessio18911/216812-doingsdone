@@ -4,10 +4,11 @@ function getConnection(string $host, string $user, string $password, string $dat
 
     if(!$link) {
         die("Ошибка подключения: " . mysqli_connect_error());
-    } else {
-        mysqli_set_charset($link, 'utf8');
-        return $link;
     }
+
+    mysqli_set_charset($link, 'utf8');
+    mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+    return $link;
 }
 
 function getTaskCategories ($link, int $user_id): array {

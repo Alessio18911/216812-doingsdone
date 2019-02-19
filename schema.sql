@@ -24,8 +24,8 @@ CREATE TABLE tasks (
   category_id INT,
   name CHAR(128) NOT NULL,
   created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  done_at CHAR(32) DEFAULT NULL,
+  done_at DATE NULL DEFAULT NULL,
   status INT DEFAULT 0,
-  expires_at CHAR(32) DEFAULT NULL,
+  expires_at DATE NULL DEFAULT NULL,
   file_path CHAR(128)
 );
