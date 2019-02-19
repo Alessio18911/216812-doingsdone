@@ -8,9 +8,10 @@ require_once('mysql_helper.php');
 $сonnection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $category_list = getTaskCategories($сonnection, 1);
 $task_list = getTaskList($сonnection, 1);
+$tasks_for_category = switchCategory($сonnection, 1);
 
 $page_content = include_template('index.php', [
-    'task_list' => $task_list,
+    'tasks_for_category' => $tasks_for_category,
     'show_complete_tasks' => $show_complete_tasks
 ]);
 

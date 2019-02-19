@@ -12,7 +12,7 @@ function getConnection(string $host, string $user, string $password, string $dat
 }
 
 function getTaskCategories ($link, int $user_id): array {
-    $sql_cat = "SELECT categories.name FROM categories
+    $sql_cat = "SELECT categories.name, categories.id FROM categories
                 JOIN users ON categories.user_id = users.id
                 WHERE users.id = $user_id";
 
@@ -32,6 +32,36 @@ function getTaskList($link, int $user_id): array {
         WHERE users.id = $user_id";
 
     $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
+    if(!$result) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+function switchCategory($link, int $user_id): array {
+    $task_count = mysqli_fetch_assoc(mysqli_query($link, "SELECT COUNT(*) AS all_categories FROM categories"))['all_categories'];
+
+    if(!$_GET['category']) {
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+                JOIN categories ON tasks.category_id = categories.id
+                JOIN users ON categories.user_id = users.id
+                WHERE users.id = $user_id";
+
+    } elseif($_GET['category'] <= $task_count) {
+        $category_id = $_GET['category'];
+
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+            JOIN categories ON tasks.category_id = categories.id
+            JOIN users ON categories.user_id = users.id
+            WHERE users.id = $user_id AND categories.id = $category_id";
+
+    } else {
+        die(http_response_code(404));
+    }
+
+    $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
+
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
