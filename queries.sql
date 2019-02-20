@@ -26,10 +26,9 @@ INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '1', 'На
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Нанять учителя музыки', '2019-03-01');
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Купить клавесин', '2019-03-01');
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '2', 'Проконтролировать уроки', NULL);
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '3', 'Найти Гениального сыщика', '2019-02-20');
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Пригласить заграничных певцов', NULL);
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Проводить балы каждую неделю', NULL);
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Выезжать в карете с охранниками ежедневно', NULL);
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('1', '4', 'Пригласить заграничных певцов', NULL);
 
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Искать площадки для выступлений', NULL);
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('2', '5', 'Выступать с друзьями', '2019-02-25');
@@ -70,4 +69,4 @@ SELECT categories.name, tasks.name FROM categories
 
 UPDATE tasks SET status = 1 WHERE id = 6;
 
-UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина', expires_at = "2019-03-01" WHERE id = 29;
+UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина', expires_at = "2019-03-01" WHERE id = 28;
