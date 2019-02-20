@@ -46,6 +46,12 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
             JOIN users ON categories.user_id = users.id
             WHERE users.id = $user_id";
     } else {
+        $category_id_max = mysqli_fetch_assoc(mysqli_query($link, "SELECT MAX(id) AS category_id_max FROM categories"))['category_id_max'];
+
+        if($category_id > $category_id_max) {
+            die(http_response_code(404));
+        }
+
         $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
@@ -54,16 +60,9 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
 
     $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
 
-
-
     if(!$result) {
         die("Ошибка :" . mysqli_error());
     }
-
-    // print('<pre>');
-    // print_r(mysqli_fetch_all($result, MYSQLI_ASSOC));
-    // print('</pre>');
-    // print(mysqli_num_rows($result));
 
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
