@@ -55,7 +55,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
     $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
 
     if(!$result) {
-        die(http_response_code(404));
+        die("Ошибка :" . mysqli_error());
     }
 
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
