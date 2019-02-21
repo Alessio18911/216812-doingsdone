@@ -37,7 +37,7 @@ function isTaskExpired(string $end_date = null): bool {
     $current_date = time();
     $expiry_date = strtotime($end_date);
 
-    return floor(($expiry_date - $current_date)/3600) <= 24;
+    return floor(($expiry_date - $current_date)/3600) <= 24 && floor(($expiry_date - $current_date)/3600) > 0;
 }
 
 function formatDate(string $date = null): string {
