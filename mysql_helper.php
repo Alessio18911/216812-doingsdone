@@ -40,7 +40,7 @@ function getTaskList($link, int $user_id): array {
 }
 
 function getTasksForCategory($link, int $user_id, int $category_id = null): array {
-    if(!$category_id) {
+    if(null === $category_id) {
         $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
