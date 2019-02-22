@@ -16,7 +16,7 @@ function getTaskCategories ($link, int $user_id): array {
                 JOIN users ON categories.user_id = users.id
                 WHERE users.id = $user_id";
 
-    $result = mysqli_query($link, sprintf($sql_cat, $user_id));
+    $result = mysqli_query($link, $sql_cat);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
@@ -31,7 +31,7 @@ function getTaskList($link, int $user_id): array {
         JOIN users ON categories.user_id = users.id
         WHERE users.id = $user_id";
 
-    $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
+    $result = mysqli_query($link, $sql_tasks);
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
@@ -46,16 +46,21 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
             JOIN users ON categories.user_id = users.id
             WHERE users.id = $user_id";
     } else {
+        $isCategoryExists = mysqli_num_rows(mysqli_query($link, "SELECT name FROM categories WHERE id = $category_id"));
+        if(!$isCategoryExists) {
+            die(http_response_code(400));
+        }
+
         $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
             WHERE users.id = $user_id AND categories.id = $category_id";
     }
 
-    $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
+    $result = mysqli_query($link, $sql_tasks);
 
     if(!$result) {
-        die("Ошибка :" . mysqli_error());
+        die("Ошибка :" . mysqli_error($link));
     }
 
     return mysqli_fetch_all($result, MYSQLI_ASSOC);

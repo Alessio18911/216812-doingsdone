@@ -9,12 +9,8 @@ $connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $category_list = getTaskCategories($connection, 1);
 $task_list = getTaskList($connection, 1);
 
-$category_id = intval($_GET['category'] ?? '');
+$category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
-
-if(empty($tasks_for_category)) {
-    die(http_response_code(404));
-}
 
 $page_content = include_template('index.php', [
     'tasks_for_category' => $tasks_for_category,
