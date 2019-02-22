@@ -42,10 +42,10 @@ function isTaskExpired(string $end_date = null): bool {
 }
 
 function formatDate(string $date = null): string {
-    if($date) {
-        $date = date_create($date);
-        return date_format($date, 'd.m.Y');
+    if (null === $date) {
+        return '';
     }
 
-    return '';
+    $date = date_create($date);
+    return date_format($date, 'd.m.Y');
 }

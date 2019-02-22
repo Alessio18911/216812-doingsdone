@@ -10,6 +10,11 @@ $category_list = getTaskCategories($connection, 1);
 $task_list = getTaskList($connection, 1);
 
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
+
+if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
+    die(http_response_code(400));
+}
+
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
 $add_task = include_template('add.php', [
@@ -32,5 +37,3 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-
-?>
