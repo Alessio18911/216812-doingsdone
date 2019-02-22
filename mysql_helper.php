@@ -11,12 +11,8 @@ function getConnection(string $host, string $user, string $password, string $dat
     return $link;
 }
 
-function getTaskCategories ($link, int $user_id): array {
-    $sql_cat = "SELECT categories.name FROM categories
-                JOIN users ON categories.user_id = users.id
-                WHERE users.id = $user_id";
-
-    $result = mysqli_query($link, sprintf($sql_cat, $user_id));
+function fetchData($link, string $sql): array {
+    $result = mysqli_query($link, $sql);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
@@ -25,18 +21,46 @@ function getTaskCategories ($link, int $user_id): array {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+function getTaskCategories($link, int $user_id): array {
+    $sql_cat = "SELECT categories.name, categories.id FROM categories
+                JOIN users ON categories.user_id = users.id
+                WHERE users.id = $user_id";
+
+    return fetchData($link, $sql_cat);
+}
+
 function getTaskList($link, int $user_id): array {
     $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
         JOIN categories ON tasks.category_id = categories.id
         JOIN users ON categories.user_id = users.id
         WHERE users.id = $user_id";
 
-    $result = mysqli_query($link, sprintf($sql_tasks, $user_id));
-    if(!$result) {
-        die("Ошибка MySQL: " . mysqli_error($link));
+    return fetchData($link, $sql_tasks);
+}
+
+
+function isCategoryExists($link, int $user_id, int $category_id): bool {
+    $sql = "SELECT name FROM categories WHERE user_id = $user_id AND id = $category_id";
+    return !empty(fetchData($link, $sql));
+}
+
+
+function getTasksForCategory($link, int $user_id, int $category_id = null): array
+{
+    if (null === $category_id) {
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+            JOIN categories ON tasks.category_id = categories.id
+            JOIN users ON categories.user_id = users.id
+            WHERE users.id = $user_id";
+
+    } else {
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+            JOIN categories ON tasks.category_id = categories.id
+            JOIN users ON categories.user_id = users.id
+            WHERE users.id = $user_id AND categories.id = $category_id";
     }
 
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return fetchData($link, $sql_tasks);
 }
 
 /**

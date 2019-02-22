@@ -21,7 +21,7 @@
 </div>
 
 <table class="tasks">
-    <?php foreach($task_list as $task): ?>
+    <?php foreach($tasks_for_category as $task): ?>
     <?php if(!$task['status']): ?>
     <tr class="tasks__item task <?=isTaskExpired($task['expires_at']) ? 'task--important':''; ?>">
         <td class="task__select">
