@@ -5,16 +5,19 @@ $show_complete_tasks = rand(0, 1);
 require_once('functions.php');
 require_once('mysql_helper.php');
 
-$сonnection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
-$category_list = getTaskCategories($сonnection, 1);
-$task_list = getTaskList($сonnection, 1);
+$connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
+$category_list = getTaskCategories($connection, 1);
+$task_list = getTaskList($connection, 1);
+
+$category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
+$tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
 $add_task = include_template('add.php', [
     'category_list' => $category_list
 ]);
 
 $page_content = include_template('index.php', [
-    'task_list' => $task_list,
+    'tasks_for_category' => $tasks_for_category,
     'show_complete_tasks' => $show_complete_tasks
 ]);
 
