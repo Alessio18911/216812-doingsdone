@@ -9,6 +9,10 @@ $сonnection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $category_list = getTaskCategories($сonnection, 1);
 $task_list = getTaskList($сonnection, 1);
 
+$add_task = include_template('add.php', [
+    'category_list' => $category_list
+]);
+
 $page_content = include_template('index.php', [
     'task_list' => $task_list,
     'show_complete_tasks' => $show_complete_tasks
@@ -18,6 +22,7 @@ $layout_content = include_template('layout.php', [
     'category_list' => $category_list,
     'task_list' => $task_list,
     'content' => $page_content,
+    'add_task' => $add_task,
     'page_title' => 'Дела в порядке',
     'user' => 'Глупый король',
 

@@ -20,7 +20,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="/index.php?task=add">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -55,7 +55,9 @@
                    href="pages/form-project.html" target="project_add">Добавить проект</a>
             </section>
 
-            <main class="content__main"><?=$content ?></main>
+            <main class="content__main">
+                <?= isset($_GET['task'])? $add_task : $content ?>
+            </main>
         </div>
     </div>
 </div>
