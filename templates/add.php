@@ -8,7 +8,6 @@
 
     <div class="form__row">
         <label class="form__label" for="project">Проект</label>
-
         <select class="form__input form__input--select" name="project" id="project">
             <?php foreach($category_list as $category): ?>
                 <option value=""><?=htmlspecialchars($category['name']); ?></option>
