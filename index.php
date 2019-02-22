@@ -5,7 +5,7 @@ $show_complete_tasks = rand(0, 1);
 require_once('functions.php');
 require_once('mysql_helper.php');
 
-$connection = getConnection('php8-doingsdone-alexey_mysql', 'root', 'password', 'doingsdone');
+$connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $category_list = getTaskCategories($connection, 1);
 $task_list = getTaskList($connection, 1);
 
