@@ -56,7 +56,7 @@
             </section>
 
             <main class="content__main">
-                <?= isset($_GET['task'])? $add_task : $content ?>
+                <?= isset($_GET['task']) ? $add_task : $content ?>
             </main>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="pages/form-task.html">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="/index.php?task=add">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
