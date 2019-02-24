@@ -19,16 +19,19 @@ $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
 $required_fields = ['name'];
 $errors = [];
+$task_field_error = '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach($required_fields as $field) {
         if (empty($_POST[$field])) {
             $task_field_error = $errors[$field] = "Это поле нужно заполнить";
-            var_dump($task_field_error);
+            header('Location: /index.php?task=add');
         }
 
+
+
         // if(count($errors)) {
-        //     header('Location: /index.php?task_add');
+        //     header('Location: /index.php?task=add');
         // } else {
         //     header('Location: /');
         // }

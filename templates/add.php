@@ -3,7 +3,7 @@
 <form class="form"  action="index.php" method="post">
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
-        <p class="form__message"><?= $task_field_error ?  $task_field_error : ''; ?></p>
+        <p class="form__message"><?= !empty($task_field_error) ?  $task_field_error : ''; ?></p>
         <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
     </div>
 
