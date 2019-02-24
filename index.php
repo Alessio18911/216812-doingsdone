@@ -19,40 +19,36 @@ $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
 $required_fields = ['name'];
 $errors = [];
-$task_field_error = '';
+$error_message = '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach($required_fields as $field) {
         if (empty($_POST[$field])) {
-            $task_field_error = $errors[$field] = "Это поле нужно заполнить";
-            header('Location: /index.php?task=add');
+            $error_message = $errors[$field] = "Это поле нужно заполнить";
+        } else {
+            header('Location: /');
         }
-
-
-
-        // if(count($errors)) {
-        //     header('Location: /index.php?task=add');
-        // } else {
-        //     header('Location: /');
-        // }
     }
 }
 
-$add_task = include_template('add.php', [
-    'category_list' => $category_list,
-    'task_field_error' => $task_field_error
-]);
+$content = '';
 
-$page_content = include_template('index.php', [
-    'tasks_for_category' => $tasks_for_category,
-    'show_complete_tasks' => $show_complete_tasks
-]);
+if(isset($_GET['addtask'])) {
+    $content = include_template('add.php', [
+        'category_list' => $category_list,
+        'error_message' => $error_message
+    ]);
+} else {
+    $content = include_template('index.php', [
+        'tasks_for_category' => $tasks_for_category,
+        'show_complete_tasks' => $show_complete_tasks
+    ]);
+}
 
 $layout_content = include_template('layout.php', [
     'category_list' => $category_list,
     'task_list' => $task_list,
-    'content' => $page_content,
-    'add_task' => $add_task,
+    'content' => $content,
     'page_title' => 'Дела в порядке',
     'user' => 'Глупый король',
 

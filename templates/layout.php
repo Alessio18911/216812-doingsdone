@@ -20,7 +20,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="/index.php?task=add">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="/index.php?addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -56,7 +56,7 @@
             </section>
 
             <main class="content__main">
-                <?= isset($_GET['task']) ? $add_task : $content ?>
+                <?= $content ?>
             </main>
         </div>
     </div>
