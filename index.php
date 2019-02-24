@@ -23,20 +23,21 @@ $errors = [];
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach($required_fields as $field) {
         if (empty($_POST[$field])) {
-            $taskFieldError = $errors[$field] = "Это поле нужно заполнить";
+            $task_field_error = $errors[$field] = "Это поле нужно заполнить";
+            var_dump($task_field_error);
         }
-    }
 
-    if(count($errors)) {
-        header("Location: /index.php?task=add");
-    } else {
-        header("Location: /");
+        // if(count($errors)) {
+        //     header('Location: /index.php?task_add');
+        // } else {
+        //     header('Location: /');
+        // }
     }
 }
 
 $add_task = include_template('add.php', [
     'category_list' => $category_list,
-    'taskFieldError' => $taskFieldError
+    'task_field_error' => $task_field_error
 ]);
 
 $page_content = include_template('index.php', [
