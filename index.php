@@ -17,8 +17,25 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
+$field = $_POST['name'] ?? '';
+$errors = [];
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if(empty($field)) {
+        $errors['name'] = 'Это поле нужно заполнить';
+    }
+
+    if(count($errors)) {
+        header("Location: /index.php?task=add");
+    } else {
+        header("Location: /");
+    }
+}
+
 $add_task = include_template('add.php', [
-    'category_list' => $category_list
+    'category_list' => $category_list,
+    'errors' => $errors
 ]);
 
 $page_content = include_template('index.php', [

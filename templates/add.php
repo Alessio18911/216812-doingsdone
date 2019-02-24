@@ -1,8 +1,9 @@
 <h2 class="content__main-heading">Добавление задачи</h2>
 
-<form class="form"  action="index.html" method="post">
+<form class="form"  action="index.php" method="post">
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
+        <p class="form__message"><?= $errors['name'] ?  $errors['name'] : ''; ?></p>
         <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
     </div>
 
