@@ -49,3 +49,23 @@ function formatDate(string $date = null): string {
     $date = date_create($date);
     return date_format($date, 'd.m.Y');
 }
+
+function validateFields($required_fields, $post, $errors) {
+    foreach($required_fields as $field) {
+        if(empty($post[$field])) {
+            $errors[$field] = "Это поле нужно заполнить";
+        }
+    }
+
+    return $errors;
+}
+
+function validateFiles($files, $error_files) {
+    foreach($files as $key => $file) {
+        if($file['type'] && $file['type'] !== 'application/octet-stream') {
+            $error_files[$key] = "Файл должен иметь расширение .psd";
+        }
+    }
+
+    return $error_files;
+}

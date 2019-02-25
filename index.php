@@ -18,16 +18,19 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
 $required_fields = ['name'];
+$post = $_POST;
+$files = $_FILES;
 $errors = [];
-$error_message = '';
+$error_files = [];
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach($required_fields as $field) {
-        if (empty($_POST[$field])) {
-            $error_message = $errors[$field] = "Это поле нужно заполнить";
-        } else {
-            header('Location: /');
-        }
+$add_task = !empty($post['name']) ? $post['name'] : '';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = validateFields($required_fields, $post, $errors);
+    $error_files = validateFiles($files, $error_files);
+
+    if(!count($errors) && !count($error_files)) {
+        header("Location: /index.php");
     }
 }
 
@@ -36,7 +39,9 @@ $content = '';
 if(isset($_GET['addtask'])) {
     $content = include_template('add.php', [
         'category_list' => $category_list,
-        'error_message' => $error_message
+        'add_task' => $add_task,
+        'errors' => $errors,
+        'error_files' => $error_files
     ]);
 } else {
     $content = include_template('index.php', [
