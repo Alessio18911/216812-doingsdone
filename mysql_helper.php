@@ -81,8 +81,14 @@ function add_task($link, array $post, array $files, int $user_id): bool {
         }
     }
 
+
+    // var_dump();
+    // var_dump();
+
     $sql_add_task = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path)
                             VALUES($user_id, $category_id, $name, $expires_at, $file_path)";
+
+    var_dump($sql_add_task);
 
     $result = mysqli_query($link, $sql_add_task);
 
