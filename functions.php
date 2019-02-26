@@ -60,7 +60,7 @@ function validateFields($required_fields, $post, $errors) {
     return $errors;
 }
 
-function processFiles($files, $error_files) {
+function validateFiles($files, $error_files) {
     foreach($files as $key => $file) {
         if($file['name'] && $file['type'] !== 'application/octet-stream') {
             $error_files[$key] = "Файл должен иметь расширение .psd";
@@ -68,13 +68,18 @@ function processFiles($files, $error_files) {
         }
 
         if($file['name']) {
-            $file_name = $file['name'];
-            $file_path = __DIR__ . '\\' . $file_name;
-            $file_url = '\\' . $file_name;
-
-            move_uploaded_file($file['tmp_name'], $file_path);
+            processFiles($file);
         }
     }
 
     return $error_files;
+}
+
+function processFiles($file) {
+    $file_name = $file['name'];
+    $file_path = __DIR__ . '\\' . $file_name;
+    $file_url = '\\' . $file_name;
+
+    move_uploaded_file($file['tmp_name'], $file_path);
+    return $file_path;
 }
