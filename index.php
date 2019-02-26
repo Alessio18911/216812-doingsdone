@@ -6,8 +6,8 @@ require_once('functions.php');
 require_once('mysql_helper.php');
 
 $connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
-$category_list = getTaskCategories($connection, 1);
-$task_list = getTaskList($connection, 1);
+$category_list = getCategories($connection, 1);
+$task_list = getTasks($connection, 1);
 
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 
@@ -29,6 +29,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateFields($required_fields, $post, $errors);
     $error_files = validateFiles($files, $error_files);
     processFiles($files);
+
+    // print('<pre>');
+    // var_dump($post);
+    // print('</pre>');
 
     if(!count($errors) && !count($error_files)) {
         header("Location: /index.php");

@@ -21,15 +21,15 @@ function fetchData($link, string $sql): array {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function getTaskCategories($link, int $user_id): array {
-    $sql_cat = "SELECT categories.name, categories.id FROM categories
+function getCategories($link, int $user_id): array {
+    $sql_cat = "SELECT categories.id, categories.name FROM categories
                 JOIN users ON categories.user_id = users.id
                 WHERE users.id = $user_id";
 
     return fetchData($link, $sql_cat);
 }
 
-function getTaskList($link, int $user_id): array {
+function getTasks($link, int $user_id): array {
     $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
         JOIN categories ON tasks.category_id = categories.id
         JOIN users ON categories.user_id = users.id
