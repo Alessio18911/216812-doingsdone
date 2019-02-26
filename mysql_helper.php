@@ -63,41 +63,25 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
     return fetchData($link, $sql_tasks);
 }
 
-function add_task($link, array $post, array $files, int $user_id): bool {
-    $name = $post['name'];
-    $category_id = $post['project'];
+// function add_task($link, array $post, array $files, int $user_id): bool {
+//     $name = $post['project'];
+//     $category_id = $post['name'];
+//     $expires_at = !empty($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
 
-    if (!empty($post['date'])) {
-        $expires_at = date_format(date_create($post['date']), 'Y-m-d');
-    } else {
-        $expires_at = NULL;
-    }
+//     foreach($files as $file) {
+//         $file_path = $file['name'] ? __DIR__ . '\\'. $file['name'] : NULL;
+//     }
 
-    foreach($files as $file) {
-        if($file['name']) {
-            $file_path = __DIR__ . '\\'. $file['name'];
-        } else {
-            $file_path = NULL;
-        }
-    }
+//     $sql_add_task = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, $name, $expires_at, $file_path)";
 
+//     $result = mysqli_query($link, $sql_add_task);
 
-    // var_dump();
-    // var_dump();
+//     if(!$result) {
+//         die("Ошибка MySQL: " . mysqli_error($link));
+//     }
 
-    $sql_add_task = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path)
-                            VALUES($user_id, $category_id, $name, $expires_at, $file_path)";
-
-    var_dump($sql_add_task);
-
-    $result = mysqli_query($link, $sql_add_task);
-
-    if(!$result) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
-
-    return $result;
-}
+//     return $result;
+// }
 
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
