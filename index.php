@@ -27,12 +27,7 @@ $add_task = !empty($post['name']) ? $post['name'] : '';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateFields($required_fields, $post, $errors);
-    $error_files = validateFiles($files, $error_files);
-    processFiles($files);
-
-    // print('<pre>');
-    // var_dump($post);
-    // print('</pre>');
+    $error_files = processFiles($files, $error_files);
 
     if(!count($errors) && !count($error_files)) {
         header("Location: /index.php");
