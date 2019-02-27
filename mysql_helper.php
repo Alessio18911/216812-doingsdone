@@ -48,13 +48,13 @@ function isCategoryExists($link, int $user_id, int $category_id): bool {
 function getTasksForCategory($link, int $user_id, int $category_id = null): array
 {
     if (null === $category_id) {
-        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
             WHERE users.id = $user_id";
 
     } else {
-        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
+        $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
             WHERE users.id = $user_id AND categories.id = $category_id";
@@ -64,17 +64,18 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
 }
 
 function add_task($link, array $post, array $files, int $user_id): bool {
-    $name = $post['project'];
-    $category_id = $post['name'];
+    $name = $post['name'];
+    $category_id = $post['project'];
     $expires_at = !empty($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
 
     foreach($files as $file) {
         $file_path = $file['name'] ? processFiles($file) : NULL;
     }
 
-    $sql_add_task = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, $name, $expires_at, $file_path)";
+    $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, ?, ?, ?)";
 
-    $result = mysqli_query($link, $sql_add_task);
+    $stmt = db_get_prepare_stmt($link, $sql, [$name, $expires_at, $file_path]);
+    $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));

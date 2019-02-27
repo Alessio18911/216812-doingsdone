@@ -32,7 +32,7 @@
         </td>
 
         <td class="task__file">
-            <a class="download-link" href="#">Home.psd</a>
+            <a class="download-link" href="<?= $task['file_path'] ?>"><?= $task['file_path'] ?></a>
         </td>
 
         <td class="task__date"><?=formatDate($task['expires_at']); ?></td>

@@ -81,5 +81,4 @@ function processFiles($file) {
     $file_url = '\\' . $file_name;
 
     move_uploaded_file($file['tmp_name'], $file_path);
-    return $file_path;
 }
