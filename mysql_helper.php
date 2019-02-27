@@ -63,7 +63,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
     return fetchData($link, $sql_tasks);
 }
 
-function add_task($link, array $post, array $files, int $user_id): bool {
+function add_task($link, array $post, array $files, int $user_id) {
     $name = $post['name'];
     $category_id = $post['project'];
     $expires_at = !empty($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
@@ -74,15 +74,24 @@ function add_task($link, array $post, array $files, int $user_id): bool {
 
     $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, ?, ?, ?)";
 
-
     $stmt = db_get_prepare_stmt($link, $sql, [$name, $expires_at, $file_path]);
     $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
+}
 
-    return $result;
+function add_category($link, array $post, int $user_id) {
+    $name = $post['name'];
+
+    $sql = "INSERT INTO categories(name, user_id) VALUES(?, $user_id)";
+    $stmt = db_get_prepare_stmt($link, $sql, [$name]);
+    $result = mysqli_stmt_execute($stmt);
+
+    if(!$result) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
 }
 
 /**

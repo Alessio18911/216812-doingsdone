@@ -16,36 +16,49 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 }
 
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
-
-$required_fields = ['name'];
 $post = $_POST;
 $files = $_FILES;
 $errors = [];
 $error_files = [];
 
-$add_task = !empty($post['name']) ? $post['name'] : '';
-
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $errors = validateFields($required_fields, $post, $errors);
-    $error_files = validateFiles($files, $error_files);
-
-    if(!count($errors) && !count($error_files)) {
-        $new_task = add_task($connection, $post, $files, 1);
-        header("Location: /index.php");
-    }
-}
-
 $content = '';
 
 if(isset($_GET['addtask'])) {
+    $required_fields = ['name'];
+    $add_task = !empty($post['name']) ? $post['name'] : '';
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = validateFields($required_fields, $post, $errors);
+        $error_files = validateFiles($files, $error_files);
+
+        if(!count($errors) && !count($error_files)) {
+            add_task($connection, $post, $files, 1);
+            header("Location: /index.php");
+        }
+    }
+
     $content = include_template('add.php', [
         'category_list' => $category_list,
         'add_task' => $add_task,
         'errors' => $errors,
-        'error_files' => $error_files
+        'error_files' => $error_files,
+
     ]);
 } elseif(isset($_GET['addproject'])) {
+    $required_fields = ['name'];
+    $add_category = !empty($post['name']) ? $post['name'] : '';
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = validateFields($required_fields, $post, $errors);
+
+        if(!count($errors)) {
+            add_category($connection, $post, 1);
+            header("Location: /index.php");
+        }
+    }
+
     $content = include_template('add_project.php', [
+        'add_category' => $add_category,
         'errors' => $errors
     ]);
 } else {
@@ -60,8 +73,7 @@ $layout_content = include_template('layout.php', [
     'task_list' => $task_list,
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'user' => 'Глупый король',
-
+    'user' => 'Глупый король'
 ]);
 
 print($layout_content);
