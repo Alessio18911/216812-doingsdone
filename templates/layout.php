@@ -20,7 +20,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="/index.php?addtask">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="?addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -52,7 +52,7 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                    href="index.php?addproject" target="project_add">Добавить проект</a>
+                    href="?addproject" target="project_add">Добавить проект</a>
             </section>
 
             <main class="content__main">

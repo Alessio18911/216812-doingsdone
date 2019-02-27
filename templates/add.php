@@ -3,8 +3,8 @@
 <form class="form" action="index.php?addtask" method="post" enctype="multipart/form-data">
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
-        <p class="form__message"><?= !empty($errors['name']) ? $errors['name'] :''; ?></p>
-        <input class="form__input <?= !empty($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $add_task; ?>" placeholder="Введите название">
+        <p class="form__message"><?= isset($errors['name']) ? $errors['name'] :''; ?></p>
+        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $add_task; ?>" placeholder="Введите название">
     </div>
 
     <div class="form__row">
@@ -27,7 +27,6 @@
 
         <div class="form__input-file">
             <input class="visually-hidden" type="file" name="preview" id="preview" value="">
-            <p class="form__message"><?= !empty($error_files['preview']) ? $error_files['preview'] : ''; ?></p>
             <label class="button button--transparent" for="preview">
                 <span>Выберите файл</span>
             </label>

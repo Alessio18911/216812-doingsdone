@@ -19,7 +19,6 @@ $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 $post = $_POST;
 $files = $_FILES;
 $errors = [];
-$error_files = [];
 
 $content = '';
 
@@ -29,11 +28,11 @@ if(isset($_GET['addtask'])) {
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors = validateFields($required_fields, $post, $errors);
-        $error_files = validateFiles($files, $error_files);
 
-        if(!count($errors) && !count($error_files)) {
+        if(!count($errors)) {
             add_task($connection, $post, $files, 1);
-            header("Location: /index.php");
+            header("Location: /");
+            exit();
         }
     }
 
@@ -41,7 +40,7 @@ if(isset($_GET['addtask'])) {
         'category_list' => $category_list,
         'add_task' => $add_task,
         'errors' => $errors,
-        'error_files' => $error_files
+        'files' => $files
     ]);
 } elseif(isset($_GET['addproject'])) {
     $required_fields = ['name'];
@@ -52,7 +51,8 @@ if(isset($_GET['addtask'])) {
 
         if(!count($errors)) {
             add_category($connection, $post, 1);
-            header("Location: /index.php");
+            header("Location: /");
+            exit();
         }
     }
 

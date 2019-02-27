@@ -71,12 +71,12 @@ function add_task($link, array $post, array $files, int $user_id) {
     $expires_at = !empty($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
 
     foreach($files as $file) {
-        $file_path = $file['name'] ? processFiles($file) : NULL;
+        $destination = $file['name'] ? save_posted_file($file) : NULL;
     }
 
-    $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, ?, ?, ?)";
+    $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
 
-    $stmt = db_get_prepare_stmt($link, $sql, [$name, $expires_at, $file_path]);
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $name, $expires_at, $destination]);
     $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
@@ -123,6 +123,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
             }
             else if (is_double($value)) {
                 $type = 'd';
+            }
+            else if (null === $value) {
+                $type = 's';
             }
 
             if ($type) {
