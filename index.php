@@ -27,8 +27,7 @@ $layout_content = include_template('layout.php', [
     'task_list' => $task_list,
     'content' => $page_content,
     'page_title' => 'Дела в порядке',
-    'user' => 'Глупый король',
-
+    'user' => 'Глупый король'
 ]);
 
 print($layout_content);
