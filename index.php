@@ -41,8 +41,7 @@ if(isset($_GET['addtask'])) {
         'category_list' => $category_list,
         'add_task' => $add_task,
         'errors' => $errors,
-        'error_files' => $error_files,
-
+        'error_files' => $error_files
     ]);
 } elseif(isset($_GET['addproject'])) {
     $required_fields = ['name'];

@@ -77,8 +77,7 @@ function validateFiles($files, $error_files) {
 
 function processFiles($file) {
     $file_name = $file['name'];
-    $file_path = __DIR__ . '\\' . $file_name;
-    $file_url = '\\' . $file_name;
+    $file_path = '\\' . $file_name;
 
     move_uploaded_file($file['tmp_name'], $file_path);
 
