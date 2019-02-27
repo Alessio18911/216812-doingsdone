@@ -74,6 +74,7 @@ function add_task($link, array $post, array $files, int $user_id): bool {
 
     $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES($user_id, $category_id, ?, ?, ?)";
 
+
     $stmt = db_get_prepare_stmt($link, $sql, [$name, $expires_at, $file_path]);
     $result = mysqli_stmt_execute($stmt);
 

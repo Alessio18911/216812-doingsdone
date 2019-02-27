@@ -44,6 +44,10 @@ if(isset($_GET['addtask'])) {
         'errors' => $errors,
         'error_files' => $error_files
     ]);
+} elseif(isset($_GET['addproject'])) {
+    $content = include_template('add_project.php', [
+        'errors' => $errors
+    ]);
 } else {
     $content = include_template('index.php', [
         'tasks_for_category' => $tasks_for_category,
