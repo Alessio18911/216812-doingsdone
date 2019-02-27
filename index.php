@@ -23,10 +23,8 @@ $errors = [];
 $content = '';
 
 if(isset($_GET['addtask'])) {
-    $required_fields = ['name'];
-    $add_task = !empty($post['name']) ? $post['name'] : '';
-
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $required_fields = ['name'];
         $errors = validateFields($required_fields, $post, $errors);
 
         if(!count($errors)) {
@@ -36,6 +34,7 @@ if(isset($_GET['addtask'])) {
         }
     }
 
+    $add_task = isset($post['name']) ? $post['name'] : '';
     $content = include_template('add.php', [
         'category_list' => $category_list,
         'add_task' => $add_task,
@@ -43,10 +42,8 @@ if(isset($_GET['addtask'])) {
         'files' => $files
     ]);
 } elseif(isset($_GET['addproject'])) {
-    $required_fields = ['name'];
-    $add_category = !empty($post['name']) ? $post['name'] : '';
-
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $required_fields = ['name'];
         $errors = validateFields($required_fields, $post, $errors);
 
         if(!count($errors)) {
@@ -56,6 +53,7 @@ if(isset($_GET['addtask'])) {
         }
     }
 
+    $add_category = isset($post['name']) ? $post['name'] : '';
     $content = include_template('add_project.php', [
         'add_category' => $add_category,
         'errors' => $errors

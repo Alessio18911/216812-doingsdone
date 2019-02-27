@@ -61,9 +61,11 @@ function validateFields($required_fields, $post, $errors) {
 }
 
 function save_posted_file(array $file) {
-    if($file['name']) {
-        $destination = 'img/' . $file['name'];
-        move_uploaded_file($file['tmp_name'], $destination);
-        return $destination;
+    if(!$file['name']) {
+        return null;
     }
+
+    $destination = 'img/' . $file['name'];
+    move_uploaded_file($file['tmp_name'], $destination);
+    return $destination;
 }

@@ -68,10 +68,10 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
 function add_task($link, array $post, array $files, int $user_id) {
     $name = $post['name'];
     $category_id = $post['project'];
-    $expires_at = !empty($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
+    $expires_at = isset($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
 
     foreach($files as $file) {
-        $destination = $file['name'] ? save_posted_file($file) : NULL;
+        $destination = save_posted_file($file);
     }
 
     $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
@@ -87,8 +87,8 @@ function add_task($link, array $post, array $files, int $user_id) {
 function add_category($link, array $post, int $user_id) {
     $name = $post['name'];
 
-    $sql = "INSERT INTO categories(name, user_id) VALUES(?, $user_id)";
-    $stmt = db_get_prepare_stmt($link, $sql, [$name]);
+    $sql = "INSERT INTO categories(name, user_id) VALUES(?, ?)";
+    $stmt = db_get_prepare_stmt($link, $sql, [$name, $user_id]);
     $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
