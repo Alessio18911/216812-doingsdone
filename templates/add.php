@@ -4,7 +4,7 @@
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
         <p class="form__message"><?= isset($errors['name']) ? $errors['name'] :''; ?></p>
-        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $add_task; ?>" placeholder="Введите название">
+        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $new_task; ?>" placeholder="Введите название">
     </div>
 
     <div class="form__row">
@@ -18,8 +18,8 @@
 
     <div class="form__row">
         <label class="form__label" for="date">Дата выполнения</label>
-
-        <input class="form__input form__input--date" type="date" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+        <p class="form__message"><?= isset($errors['date']) ? $errors['date'] :''; ?></p>
+        <input class="form__input form__input--date <?= isset($errors['date']) ? 'form__input--error': ''; ?>" type="date" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
     </div>
 
     <div class="form__row">

@@ -35,10 +35,10 @@ function isTaskExpired(string $end_date = null): bool {
     }
 
     $current_date = time();
-    $expiry_date = strtotime($end_date);
+    $expiry_date = strtotime($end_date) + 86400;
     $time_to_expiry = floor(($expiry_date - $current_date)/3600);
 
-    return $time_to_expiry <= 24 && $time_to_expiry > 0;
+    return $time_to_expiry <= 48 && $time_to_expiry > 0;
 }
 
 function formatDate(string $date = null): string {
@@ -50,17 +50,7 @@ function formatDate(string $date = null): string {
     return date_format($date, 'd.m.Y');
 }
 
-function validateFields($required_fields, $post, $errors) {
-    foreach($required_fields as $field) {
-        if(empty($post[$field])) {
-            $errors[$field] = "Это поле нужно заполнить";
-        }
-    }
-
-    return $errors;
-}
-
-function save_posted_file(array $file) {
+function save_posted_file(array $file): ?string {
     if(!$file['name']) {
         return null;
     }
@@ -68,4 +58,36 @@ function save_posted_file(array $file) {
     $destination = 'img/' . $file['name'];
     move_uploaded_file($file['tmp_name'], $destination);
     return $destination;
+}
+
+function validateTaskForm(string $required_field, ?string $expires_at, array $errors): array {
+    if(!$required_field) {
+        $errors['name'] =  'Это поле нужно заполнить!';
+    }
+
+    if($expires_at) {
+        $now = time();
+        $expiry_date = strtotime($expires_at) + 86400;
+
+        if($expiry_date < $now) {
+            $errors['date']=  'Установите правильную дату!';
+        }
+    }
+
+    return $errors;
+}
+
+function validateCategoryForm($link, int $user_id, string $required_field, array $errors): array {
+    if(!$required_field) {
+        $errors['name'] =  'Это поле нужно заполнить!';
+        return $errors;
+    }
+
+    $new_category = isCategory($link, $user_id, $required_field);
+
+    if($new_category) {
+        $errors['name'] = 'Выберите другое имя!';
+    }
+
+    return $errors;
 }

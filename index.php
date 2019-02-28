@@ -18,47 +18,54 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 $post = $_POST;
 $files = $_FILES;
-$errors = [];
 
 $content = '';
 
 if(isset($_GET['addtask'])) {
+    $errors = [];
+
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_fields = ['name'];
-        $errors = validateFields($required_fields, $post, $errors);
+        $required_field = empty($post['name']) ? '' : $post['name'];
+        $category_id = $post['project'];
+        $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
+        $destination = save_posted_file($files['preview']) ? save_posted_file($files['preview']) : '';
+        $errors = validateTaskForm($required_field, $expires_at, $errors);
 
         if(!count($errors)) {
-            add_task($connection, $post, $files, 1);
+            add_task($connection, 1, $category_id, $required_field, $expires_at, $destination);
             header("Location: /");
             exit();
         }
     }
 
-    $add_task = isset($post['name']) ? $post['name'] : '';
+    $new_task = isset($required_field) ? $required_field : '';
     $content = include_template('add.php', [
         'category_list' => $category_list,
-        'add_task' => $add_task,
-        'errors' => $errors,
-        'files' => $files
+        'new_task' => $new_task,
+        'errors' => $errors
     ]);
-} elseif(isset($_GET['addproject'])) {
+}
+elseif(isset($_GET['addproject'])) {
+    $errors = [];
+
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_fields = ['name'];
-        $errors = validateFields($required_fields, $post, $errors);
+        $required_field = empty($post['name']) ? '' : $post['name'];
+        $errors = validateCategoryForm($connection, 1, $required_field, $errors);
 
         if(!count($errors)) {
-            add_category($connection, $post, 1);
+            add_category($connection, 1, $required_field);
             header("Location: /");
             exit();
         }
     }
 
-    $add_category = isset($post['name']) ? $post['name'] : '';
+    $new_category = isset($required_field) ? $required_field : '';
     $content = include_template('add_project.php', [
-        'add_category' => $add_category,
+        'new_category' => $new_category,
         'errors' => $errors
     ]);
-} else {
+}
+else {
     $content = include_template('index.php', [
         'tasks_for_category' => $tasks_for_category,
         'show_complete_tasks' => $show_complete_tasks

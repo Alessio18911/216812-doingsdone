@@ -38,12 +38,18 @@ function getTasks($link, int $user_id): array {
     return fetchData($link, $sql_tasks);
 }
 
-
 function isCategoryExists($link, int $user_id, int $category_id): bool {
     $sql = "SELECT name FROM categories WHERE user_id = $user_id AND id = $category_id";
     return !empty(fetchData($link, $sql));
 }
 
+function isCategory($link, int $user_id, string $category_to_insert): int {
+    $sql = "SELECT id FROM categories WHERE user_id = ? AND name = ?";
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_to_insert]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_num_rows($result);
+}
 
 function getTasksForCategory($link, int $user_id, int $category_id = null): array
 {
@@ -65,18 +71,10 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
     return fetchData($link, $sql_tasks);
 }
 
-function add_task($link, array $post, array $files, int $user_id) {
-    $name = $post['name'];
-    $category_id = $post['project'];
-    $expires_at = isset($post['date']) ? date_format(date_create($post['date']), 'Y-m-d') : NULL;
-
-    foreach($files as $file) {
-        $destination = save_posted_file($file);
-    }
-
+function add_task($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {
     $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
 
-    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $name, $expires_at, $destination]);
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $task_name, $expires_at, $destination]);
     $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
@@ -84,17 +82,19 @@ function add_task($link, array $post, array $files, int $user_id) {
     }
 }
 
-function add_category($link, array $post, int $user_id) {
-    $name = $post['name'];
-
-    $sql = "INSERT INTO categories(name, user_id) VALUES(?, ?)";
-    $stmt = db_get_prepare_stmt($link, $sql, [$name, $user_id]);
+function add_category($link, int $user_id, string $category_name) {
+    $sql = "INSERT INTO categories(user_id, name) VALUES(?, ?)";
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_name]);
     $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
 }
+
+
+
+
 
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
@@ -127,6 +127,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
             else if (null === $value) {
                 $type = 's';
             }
+
 
             if ($type) {
                 $types .= $type;
