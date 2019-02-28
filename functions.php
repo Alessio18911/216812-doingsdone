@@ -50,7 +50,7 @@ function formatDate(string $date = null): string {
     return date_format($date, 'd.m.Y');
 }
 
-function save_posted_file(array $file): ?string {
+function savePostedFile(array $file): ?string {
     if(!$file['name']) {
         return null;
     }
@@ -87,6 +87,28 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
 
     if($new_category) {
         $errors['name'] = 'Выберите другое имя!';
+    }
+
+    return $errors;
+}
+
+function validateRegisterForm($link, array $required_fields, array $post, array $errors): array {
+    foreach($required_fields as $field) {
+        if(!$post[$field]) {
+            $errors[$field] = "Это поле должно быть заполнено!";
+        }
+
+        if($post[$field] && $field === 'email') {
+            if(!filter_var($post[$field], FILTER_VALIDATE_EMAIL)) {
+                $errors[$field] = "Email введён некорректно";
+            } elseif(isEmailExists($link, $post[$field])) {
+                $errors[$field] = "Данный email уже занят. Введите другой email";
+            }
+        }
+    }
+
+    if(count($errors)) {
+        $errors['main'] = 'Пожалуйста, исправьте ошибки в форме';
     }
 
     return $errors;

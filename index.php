@@ -28,11 +28,11 @@ if(isset($_GET['addtask'])) {
         $required_field = empty($post['name']) ? '' : $post['name'];
         $category_id = $post['project'];
         $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
-        $destination = save_posted_file($files['preview']) ? save_posted_file($files['preview']) : '';
+        $destination = savePostedFile($files['preview']) ? savePostedFile($files['preview']) : '';
         $errors = validateTaskForm($required_field, $expires_at, $errors);
 
         if(!count($errors)) {
-            add_task($connection, 1, $category_id, $required_field, $expires_at, $destination);
+            addTask($connection, 1, $category_id, $required_field, $expires_at, $destination);
             header("Location: /");
             exit();
         }
@@ -53,15 +53,13 @@ elseif(isset($_GET['addproject'])) {
         $errors = validateCategoryForm($connection, 1, $required_field, $errors);
 
         if(!count($errors)) {
-            add_category($connection, 1, $required_field);
+            addCategory($connection, 1, $required_field);
             header("Location: /");
             exit();
         }
     }
 
-    $new_category = isset($required_field) ? $required_field : '';
     $content = include_template('add_project.php', [
-        'new_category' => $new_category,
         'errors' => $errors
     ]);
 }

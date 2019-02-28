@@ -71,7 +71,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null): arra
     return fetchData($link, $sql_tasks);
 }
 
-function add_task($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {
+function addTask($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {
     $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
 
     $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $task_name, $expires_at, $destination]);
@@ -82,7 +82,7 @@ function add_task($link, int $user_id, string $category_id, string $task_name, ?
     }
 }
 
-function add_category($link, int $user_id, string $category_name) {
+function addCategory($link, int $user_id, string $category_name) {
     $sql = "INSERT INTO categories(user_id, name) VALUES(?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_name]);
     $result = mysqli_stmt_execute($stmt);
@@ -90,6 +90,26 @@ function add_category($link, int $user_id, string $category_name) {
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
+}
+
+function isEmailExists($link, string $email): int {
+    $sql = "SELECT id FROM users WHERE email = ?";
+    $stmt = db_get_prepare_stmt($link, $sql, [$email]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_num_rows($result);
+}
+
+function addUser($link, string $user_name, string $password, string $email) {
+    $email = password_hash($email, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO users(name, password, email) VALUES(?, ?, ?)";
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_name, $password, $email]);
+    $result = mysqli_stmt_execute($stmt);
+
+    if(!$result) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
 }
 
 
