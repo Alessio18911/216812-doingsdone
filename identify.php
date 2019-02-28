@@ -1,12 +1,6 @@
 <?php
 
-require_once('functions.php');
-require_once('mysql_helper.php');
-
-$connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
-
-$content = '';
-$post = $_POST;
+require_once('init.php');
 
 if(isset($_GET['register'])) {
     $errors = [];

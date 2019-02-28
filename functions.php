@@ -1,5 +1,4 @@
 <?php
-date_default_timezone_set('Europe/Minsk');
 
 function include_template(string $name, array $data): string {
     $name = 'templates/' . $name;

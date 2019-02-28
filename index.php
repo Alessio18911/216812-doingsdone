@@ -2,10 +2,8 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-require_once('functions.php');
-require_once('mysql_helper.php');
+require_once('init.php');
 
-$connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $category_list = getCategories($connection, 1);
 $task_list = getTasks($connection, 1);
 
@@ -16,16 +14,12 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 }
 
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
-$post = $_POST;
-$files = $_FILES;
-
-$content = '';
 
 if(isset($_GET['addtask'])) {
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_field = empty($post['name']) ? '' : $post['name'];
+        $required_field = $post['name'];
         $category_id = $post['project'];
         $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
         $destination = savePostedFile($files['preview']) ? savePostedFile($files['preview']) : '';
@@ -38,7 +32,7 @@ if(isset($_GET['addtask'])) {
         }
     }
 
-    $new_task = isset($required_field) ? $required_field : '';
+    $new_task = isset($post['name']) ? $post['name'] : '';
     $content = include_template('add.php', [
         'category_list' => $category_list,
         'new_task' => $new_task,
