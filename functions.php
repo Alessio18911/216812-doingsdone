@@ -125,14 +125,10 @@ function validateAuthForm($link, array $post, array $errors): array {
     }
 
     if($post['password'] && $post['email']) {
-        $password = isPasswordExists($link, $post['email'], $password);
-        if(!$password) {
-            $errors['password'] = "Пароль неверный";
-        }
-    } elseif($post['password'] && !$post['email']) {
-        $errors['password'] = "Вы забыли заполнить поле email";
-    } else {
-        $errors['password'] = "Это поле нужно заполнить!";
+        $user_password = password_hash($post['password'], PASSWORD_DEFAULT);
+        $password = isPasswordExists($link, $post['email'], $user_password);
+        var_dump($password);
+        die();
     }
 
     return $errors;
