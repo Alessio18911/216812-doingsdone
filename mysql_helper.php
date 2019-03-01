@@ -101,7 +101,7 @@ function isEmailExists($link, string $email): int {
 }
 
 function addUser($link, string $user_name, string $password, string $email) {
-    $email = password_hash($email, PASSWORD_DEFAULT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $sql = "INSERT INTO users(name, password, email) VALUES(?, ?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_name, $password, $email]);
     $result = mysqli_stmt_execute($stmt);
@@ -109,7 +109,6 @@ function addUser($link, string $user_name, string $password, string $email) {
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
-
 }
 
 
