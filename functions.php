@@ -112,3 +112,28 @@ function validateRegisterForm($link, array $required_fields, array $post, array 
 
     return $errors;
 }
+
+function validateAuthForm($link, array $post, array $errors): array {
+    if($post['email']) {
+        if(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Email введён некорректно";
+        } elseif(!isEmailExists($link, $post['email'])) {
+            $errors['email'] = "Пользователь с введённым email отсутствует";
+        }
+    } else {
+        $errors['email'] = "Это поле нужно заполнить!";
+    }
+
+    if($post['password'] && $post['email']) {
+        $password = isPasswordExists($link, $post['email'], $password);
+        if(!$password) {
+            $errors['password'] = "Пароль неверный";
+        }
+    } elseif($post['password'] && !$post['email']) {
+        $errors['password'] = "Вы забыли заполнить поле email";
+    } else {
+        $errors['password'] = "Это поле нужно заполнить!";
+    }
+
+    return $errors;
+}

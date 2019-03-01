@@ -101,7 +101,7 @@ function isEmailExists($link, string $email): int {
 }
 
 function addUser($link, string $user_name, string $password, string $email) {
-    $email = password_hash($email, PASSWORD_DEFAULT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $sql = "INSERT INTO users(name, password, email) VALUES(?, ?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_name, $password, $email]);
     $result = mysqli_stmt_execute($stmt);
@@ -109,12 +109,15 @@ function addUser($link, string $user_name, string $password, string $email) {
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
-
 }
 
-
-
-
+function isPasswordExists($link, string $email, string $password): int {
+    $sql = "SELECT id FROM users WHERE password = ? AND email = ?";
+    $stmt = db_get_prepare_stmt($link, $sql, [$email, $password]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_num_rows($result);
+}
 
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных

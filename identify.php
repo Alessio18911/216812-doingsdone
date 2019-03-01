@@ -32,7 +32,26 @@ if(isset($_GET['register'])) {
 
 }
 else if(isset($_GET['auth'])) {
-    $content = include_template('auth.php', []);
+    $errors = [];
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $post['email'];
+        $password = $post['password'];
+        $errors = validateAuthForm($connection, $post, $errors);
+
+        if(!count($errors)) {
+            // //enter();
+            // header("Location: /");
+            // exit();
+        }
+    }
+
+    $email = isset($post['email']) ? $post['email'] : '';
+    $password = isset($post['password']) ? $post['password'] : '';
+    $content = include_template('auth.php', [
+        'errors' => $errors,
+        'email' => $email
+    ]);
 }
 
 $layout_content = include_template('identify_layout.php', [
