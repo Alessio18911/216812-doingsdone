@@ -118,17 +118,22 @@ function validateAuthForm($link, array $post, array $errors): array {
         if(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
         } elseif(!isEmailExists($link, $post['email'])) {
-            $errors['email'] = "Пользователь с введённым email отсутствует";
+            $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
         $errors['email'] = "Это поле нужно заполнить!";
     }
 
     if($post['password'] && $post['email']) {
-        $user_password = password_hash($post['password'], PASSWORD_DEFAULT);
-        $password = isPasswordExists($link, $post['email'], $user_password);
-        var_dump($password);
-        die();
+        $user_password = getUserPassword($link, $post['email']);
+        $result = password_verify($post['password'], $user_password);
+
+        if(!$result) {
+            $errors['password'] = "Пароль указан неверно!";
+        }
+
+    } else {
+        $errors['password'] = "Это поле нужно заполнить!";
     }
 
     return $errors;

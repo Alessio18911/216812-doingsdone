@@ -105,18 +105,13 @@ function addUser($link, string $user_name, string $password, string $email) {
     $sql = "INSERT INTO users(name, password, email) VALUES(?, ?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_name, $password, $email]);
     $result = mysqli_stmt_execute($stmt);
-
-    if(!$result) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
 }
 
-function isPasswordExists($link, string $email, string $password): int {
-    $sql = "SELECT id FROM users WHERE password = ? AND email = ?";
-    $stmt = db_get_prepare_stmt($link, $sql, [$email, $password]);
+function getUserPassword($link, string $email): string {
+    $sql = "SELECT password FROM users WHERE email = ?";
+    $stmt = db_get_prepare_stmt($link, $sql, [$email]);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_num_rows($result);
+    return mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))['password'];
 }
 
 /**

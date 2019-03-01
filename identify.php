@@ -40,9 +40,9 @@ else if(isset($_GET['auth'])) {
         $errors = validateAuthForm($connection, $post, $errors);
 
         if(!count($errors)) {
-            // //enter();
-            // header("Location: /");
-            // exit();
+            //enter();
+            header("Location: /");
+            exit();
         }
     }
 
@@ -50,7 +50,8 @@ else if(isset($_GET['auth'])) {
     $password = isset($post['password']) ? $post['password'] : '';
     $content = include_template('auth.php', [
         'errors' => $errors,
-        'email' => $email
+        'email' => $email,
+        'password' => $password
     ]);
 }
 
