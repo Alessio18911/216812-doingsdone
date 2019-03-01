@@ -22,7 +22,8 @@ if(isset($_GET['addtask'])) {
         $required_field = $post['name'];
         $category_id = $post['project'];
         $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
-        $destination = savePostedFile($files['preview']) ? savePostedFile($files['preview']) : '';
+        $destination = savePostedFile($files['preview']);
+        $destination =  $destination ? $destination : '';
         $errors = validateTaskForm($required_field, $expires_at, $errors);
 
         if(!count($errors)) {
