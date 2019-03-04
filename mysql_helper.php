@@ -107,7 +107,7 @@ function addUser($link, string $user_name, string $password, string $email) {
     $result = mysqli_stmt_execute($stmt);
 }
 
-function getUserPassword($link, string $email): string {
+function getUserPassword($link, string $email): ?string {
     $sql = "SELECT password FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
     mysqli_stmt_execute($stmt);

@@ -26,7 +26,7 @@
     <tr class="tasks__item task <?=isTaskExpired($task['expires_at']) ? 'task--important':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
-                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?= $task['id']; ?>">
                 <span class="checkbox__text"><?=htmlspecialchars($task['name']); ?></span>
             </label>
         </td>
@@ -38,11 +38,11 @@
         <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
     </tr>
 
-    <?php elseif($show_complete_tasks): ?>
+    <?php elseif($show_complete_tasks && $task['status']): ?>
     <tr class="tasks__item task <?=$task['status'] ? 'task--completed':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
-                <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                <input class="checkbox__input visually-hidden" type="checkbox" value="<?= $task['id']; ?>" checked>
                 <span class="checkbox__text"><?=htmlspecialchars($task['name']); ?></span>
             </label>
         </td>

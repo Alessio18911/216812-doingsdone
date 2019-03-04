@@ -15,8 +15,13 @@ if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
 
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 
+// if(isset($_GET['task_id']) && isset($_GET['check'])) {
+
+// }
+
+
 if(isset($_GET['addtask'])) {
-    $new_task = '';
+    $required_field = '';
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,7 +40,7 @@ if(isset($_GET['addtask'])) {
 
     $content = include_template('add.php', [
         'category_list' => $category_list,
-        'new_task' => $new_task,
+        'required_field' => $required_field,
         'errors' => $errors
     ]);
 }
