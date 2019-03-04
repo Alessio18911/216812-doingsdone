@@ -85,7 +85,7 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
     $new_category = isCategory($link, $user_id, $required_field);
 
     if($new_category) {
-        $errors['name'] = 'Выберите другое имя!';
+        $errors['name'] = 'Проект с данным именем уже существует! Выберите другое имя';
     }
 
     return $errors;
