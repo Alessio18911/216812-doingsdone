@@ -10,10 +10,10 @@ if(isset($_GET['register'])) {
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $required_fields = ['email', 'password', 'name'];
-        $email = $post['email'];
-        $password = $post['password'];
-        $user_name = $post['name'];
-        $errors = validateRegisterForm($connection, $required_fields, $post, $errors);
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $user_name = $_POST['name'];
+        $errors = validateRegisterForm($connection, $required_fields, $errors);
 
         if(!count($errors)) {
             addUser($connection, $user_name, $password, $email);
@@ -36,9 +36,9 @@ else if(isset($_GET['auth'])) {
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = $post['email'];
-        $password = $post['password'];
-        $errors = validateAuthForm($connection, $post, $errors);
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $errors = validateAuthForm($connection, $errors);
 
         if(!count($errors)) {
             //enter();

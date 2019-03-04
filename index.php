@@ -25,10 +25,10 @@ if(isset($_GET['addtask'])) {
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_field = $post['name'];
-        $category_id = $post['project'];
-        $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
-        $destination = savePostedFile($files['preview']) ? savePostedFile($files['preview']) : '';
+        $required_field = $_POST['name'];
+        $category_id = $_POST['project'];
+        $expires_at = empty($_POST['date']) ? null : date_format(date_create($_POST['date']), 'Y-m-d');
+        $destination = savePostedFile($_FILES['preview']) ? savePostedFile($_FILES['preview']) : '';
         $errors = validateTaskForm($required_field, $expires_at, $errors);
 
         if(!count($errors)) {
@@ -48,7 +48,7 @@ elseif(isset($_GET['addproject'])) {
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_field = empty($post['name']) ? '' : $post['name'];
+        $required_field = empty($_POST['name']) ? '' : $_POST['name'];
         $errors = validateCategoryForm($connection, 1, $required_field, $errors);
 
         if(!count($errors)) {

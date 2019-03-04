@@ -91,16 +91,16 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
     return $errors;
 }
 
-function validateRegisterForm($link, array $required_fields, array $post, array $errors): array {
+function validateRegisterForm($link, array $required_fields, array $errors): array {
     foreach($required_fields as $field) {
-        if(!$post[$field]) {
+        if(!$_POST[$field]) {
             $errors[$field] = "Это поле должно быть заполнено!";
         }
 
-        if($post[$field] && $field === 'email') {
-            if(!filter_var($post[$field], FILTER_VALIDATE_EMAIL)) {
+        if($_POST[$field] && $field === 'email') {
+            if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
                 $errors[$field] = "Email введён некорректно";
-            } elseif(isEmailExists($link, $post[$field])) {
+            } elseif(isEmailExists($link, $_POST[$field])) {
                 $errors[$field] = "Данный email уже занят. Введите другой email";
             }
         }
@@ -113,20 +113,20 @@ function validateRegisterForm($link, array $required_fields, array $post, array 
     return $errors;
 }
 
-function validateAuthForm($link, array $post, array $errors): array {
-    if($post['email']) {
-        if(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+function validateAuthForm($link, array $errors): array {
+    if($_POST['email']) {
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
-        } elseif(!isEmailExists($link, $post['email'])) {
+        } elseif(!isEmailExists($link, $_POST['email'])) {
             $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
         $errors['email'] = "Это поле нужно заполнить!";
     }
 
-    if($post['password'] && $post['email']) {
-        $user_password = getUserPassword($link, $post['email']);
-        $result = password_verify($post['password'], $user_password);
+    if($_POST['password'] && $_POST['email']) {
+        $user_password = getUserPassword($link, $_POST['email']);
+        $result = password_verify($_POST['password'], $user_password);
 
         if(!$result) {
             $errors['password'] = "Пароль указан неверно!";
