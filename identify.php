@@ -17,7 +17,7 @@ if(isset($_GET['register'])) {
 
         if(!count($errors)) {
             addUser($connection, $user_name, $password, $email);
-            header("Location: /");
+            header("Location: /index.php?main");
             exit();
         }
     }
@@ -41,8 +41,7 @@ else if(isset($_GET['auth'])) {
         $errors = validateAuthForm($connection, $errors);
 
         if(!count($errors)) {
-            //enter();
-            header("Location: /");
+            header("Location: /index.php?main");
             exit();
         }
     }
@@ -54,9 +53,9 @@ else if(isset($_GET['auth'])) {
     ]);
 }
 
-$layout_content = include_template('identify_layout.php', [
+$layout_content = include_template('layout.php', [
     'content' => $content,
-    'page_title' => "Дела в порядке: регистрация"
+    'page_title' => 'Дела в порядке'
 ]);
 
 print($layout_content);

@@ -9,18 +9,23 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body>
+<body class="<?= empty($_GET) ? 'body-background' :''; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container <?= empty($_GET) ? '' : 'container--with-sidebar'; ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="?addtask">Добавить задачу</a>
+                <?php if(!isset($_GET['main'])): ?>
+                    <a class="main-header__side-item button button--transparent" href="identify.php?auth">Войти</a>
+                <?php endif; ?>
+
+                <?php if(isset($_GET['main'])): ?>
+                <a class="main-header__side-item button button--plus open-modal" href="?main&addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -33,18 +38,26 @@
                         <a href="#">Выйти</a>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </header>
 
         <div class="content">
+            <?php if(isset($_GET['register']) OR isset($_GET['auth'])): ?>
+            <section class="content__side">
+                <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+                <a class="button button--transparent content__side-button" href="identify.php?auth">Войти</a>
+            </section>
+            <?php endif; ?>
+
+            <?php if(isset($_GET['main'])): ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
-
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                     <?php foreach($category_list as $category): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="/index.php?category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
+                            <a class="main-navigation__list-item-link" href="/index.php?main&category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
                             <span class="main-navigation__list-item-count"><?=countTasks(htmlspecialchars($category['name']), $task_list); ?></span>
                         </li>
                     <?php endforeach; ?>
@@ -52,9 +65,9 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                    href="?addproject" target="project_add">Добавить проект</a>
+                    href="?main&addproject" target="project_add">Добавить проект</a>
             </section>
-
+            <?php endif; ?>
             <main class="content__main">
                 <?= $content ?>
             </main>
@@ -70,8 +83,9 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
+        <?php if(isset($_GET['main'])): ?>
         <a class="main-footer__button button button--plus" href="?addtask">Добавить задачу</a>
-
+        <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">

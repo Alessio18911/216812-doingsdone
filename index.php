@@ -62,11 +62,14 @@ elseif(isset($_GET['addproject'])) {
         'errors' => $errors
     ]);
 }
-else {
+else if(isset($_GET['main'])) {
     $content = include_template('index.php', [
-        'tasks_for_category' => $tasks_for_category,
-        'show_complete_tasks' => $show_complete_tasks
+        'show_complete_tasks'=> $show_complete_tasks,
+        'tasks_for_category' => $tasks_for_category
     ]);
+}
+else if(empty($_GET)) {
+    $content = include_template('guest.php', []);
 }
 
 $layout_content = include_template('layout.php', [
