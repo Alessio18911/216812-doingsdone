@@ -3,6 +3,9 @@
 require_once('init.php');
 
 if(isset($_GET['register'])) {
+    $email = '';
+    $password = '';
+    $user_name = '';
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,19 +22,17 @@ if(isset($_GET['register'])) {
         }
     }
 
-    $email = empty($post['email']) ? '' : $post['email'];
-    $password = empty($post['password']) ? '' : $post['password'];
-    $user_name = empty($post['name']) ? '' : $post['name'];
-
     $content = include_template('register.php', [
-        'errors' => $errors,
         'email' => $email,
         'password' => $password,
-        'user_name' => $user_name
+        'user_name' => $user_name,
+        'errors' => $errors
     ]);
 
 }
 else if(isset($_GET['auth'])) {
+    $email = '';
+    $password = '';
     $errors = [];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,12 +47,10 @@ else if(isset($_GET['auth'])) {
         }
     }
 
-    $email = isset($post['email']) ? $post['email'] : '';
-    $password = isset($post['password']) ? $post['password'] : '';
     $content = include_template('auth.php', [
-        'errors' => $errors,
         'email' => $email,
-        'password' => $password
+        'password' => $password,
+        'errors' => $errors,
     ]);
 }
 
