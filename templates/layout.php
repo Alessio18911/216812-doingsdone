@@ -9,22 +9,21 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body class="<?= empty($_GET) ? 'body-background' :''; ?>">
+<body class="<?= $isGuest ? 'body-background' :''; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container <?= empty($_GET) ? '' : 'container--with-sidebar'; ?>">
+    <div class="container <?= $isGuest ? '' : 'container--with-sidebar'; ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if(empty($_GET) OR isset($_GET['identify'])): ?>
+                <?php if($isGuest): ?>
                     <a class="main-header__side-item button button--transparent" href="authentification.php?identify">Войти</a>
-                <?php endif; ?>
 
-                <?php if(isset($_GET['main'])): ?>
+                <?php else: ?>
                 <a class="main-header__side-item button button--plus open-modal" href="main.php?main&addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
@@ -50,7 +49,7 @@
             </section>
             <?php endif; ?>
 
-            <?php if(isset($_GET['main'])): ?>
+            <?php if(!$isGuest): ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
                 <nav class="main-navigation">
@@ -83,7 +82,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if(isset($_GET['main'])): ?>
+        <?php if(!$isGuest): ?>
         <a class="main-footer__button button button--plus" href="main.php?main&addtask">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">

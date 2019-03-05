@@ -7,3 +7,5 @@ require_once('mysql_helper.php');
 $connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 
 $content = '';
+
+$isAuth = false;
