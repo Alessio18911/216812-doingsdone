@@ -11,12 +11,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateAuthForm($connection, $errors);
 
     if(!count($errors)) {
-        header("Location: /main.php?main");
+        header("Location: /");
         exit();
     }
 }
 
-$content = include_template('auth.php', [
+$content = include_template('sign_in.php', [
     'email' => $email,
     'password' => $password,
     'errors' => $errors,
@@ -24,7 +24,9 @@ $content = include_template('auth.php', [
 
 $layout_content = include_template('layout.php', [
     'content' => $content,
-    'page_title' => 'Дела в порядке'
+    'page_title' => 'Дела в порядке',
+    'isGuest' => !$isAuth,
+    'isSignInOrRegister' => true,
 ]);
 
 print($layout_content);

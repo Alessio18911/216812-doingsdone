@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body class="<?= $isGuest AND $isSignInOrRegister ? 'body-background' :''; ?>">
+<body class="<?= ($isGuest && !$isSignInOrRegister) ? 'body-background' :''; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
@@ -21,7 +21,7 @@
 
             <div class="main-header__side">
                 <?php if($isGuest): ?>
-                    <a class="main-header__side-item button button--transparent" href="authentification.php?identify">Войти</a>
+                    <a class="main-header__side-item button button--transparent" href="sign_in.php">Войти</a>
                 <?php else: ?>
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
@@ -41,10 +41,10 @@
         </header>
 
         <div class="content">
-            <?php if($isSignInOrRegister): ?>
+            <?php if($isGuest AND $isSignInOrRegister): ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
-                <a class="button button--transparent content__side-button" href="authentification.php?identify">Войти</a>
+                <a class="button button--transparent content__side-button" href="sign_in.php">Войти</a>
             </section>
             <?php endif; ?>
 
