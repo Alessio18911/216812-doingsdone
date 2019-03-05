@@ -22,7 +22,6 @@
             <div class="main-header__side">
                 <?php if($isGuest): ?>
                     <a class="main-header__side-item button button--transparent" href="authentification.php?identify">Войти</a>
-
                 <?php else: ?>
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
@@ -42,7 +41,7 @@
         </header>
 
         <div class="content">
-            <?php if(isset($_GET['identify'])): ?>
+            <?php if($isSignInOrRegister): ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
                 <a class="button button--transparent content__side-button" href="authentification.php?identify">Войти</a>
@@ -64,7 +63,7 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                    href="main.php?main&addproject" target="project_add">Добавить проект</a>
+                    href="add_project.php" target="project_add">Добавить проект</a>
             </section>
             <?php endif; ?>
             <main class="content__main">
