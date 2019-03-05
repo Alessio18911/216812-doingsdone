@@ -20,12 +20,12 @@
             </a>
 
             <div class="main-header__side">
-                <?php if(!isset($_GET['main'])): ?>
-                    <a class="main-header__side-item button button--transparent" href="identify.php?auth">Войти</a>
+                <?php if(empty($_GET) OR isset($_GET['identify'])): ?>
+                    <a class="main-header__side-item button button--transparent" href="authentification.php?identify">Войти</a>
                 <?php endif; ?>
 
                 <?php if(isset($_GET['main'])): ?>
-                <a class="main-header__side-item button button--plus open-modal" href="?main&addtask">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="index.php?main&addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -43,10 +43,10 @@
         </header>
 
         <div class="content">
-            <?php if(isset($_GET['register']) OR isset($_GET['auth'])): ?>
+            <?php if(isset($_GET['identify'])): ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
-                <a class="button button--transparent content__side-button" href="identify.php?auth">Войти</a>
+                <a class="button button--transparent content__side-button" href="authentification.php?identify">Войти</a>
             </section>
             <?php endif; ?>
 
@@ -65,7 +65,7 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                    href="?main&addproject" target="project_add">Добавить проект</a>
+                    href="index.php?main&addproject" target="project_add">Добавить проект</a>
             </section>
             <?php endif; ?>
             <main class="content__main">
@@ -84,7 +84,7 @@
         </div>
 
         <?php if(isset($_GET['main'])): ?>
-        <a class="main-footer__button button button--plus" href="?addtask">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="index.php?main&addtask">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>

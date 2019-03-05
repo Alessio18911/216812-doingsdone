@@ -33,7 +33,7 @@ if(isset($_GET['addtask'])) {
 
         if(!count($errors)) {
             addTask($connection, 1, $category_id, $required_field, $expires_at, $destination);
-            header("Location: /");
+            header("Location: /index.php?main");
             exit();
         }
     }
@@ -53,7 +53,7 @@ elseif(isset($_GET['addproject'])) {
 
         if(!count($errors)) {
             addCategory($connection, 1, $required_field);
-            header("Location: /");
+            header("Location: /index.php?main");
             exit();
         }
     }

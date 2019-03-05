@@ -1,6 +1,6 @@
 <h2 class="content__main-heading">Вход на сайт</h2>
 
-<form class="form" action="identify.php?auth" method="post">
+<form class="form" action="authentification.php?identify" method="post">
     <div class="form__row">
     <label class="form__label" for="email">E-mail <sup>*</sup></label>
     <input class="form__input <?= isset($errors['email'])? 'form__input--error' :''; ?>" type="text" name="email" id="email" value="<?= isset($errors['email']) ? '': $email; ?>" placeholder="Введите e-mail">
