@@ -1,10 +1,15 @@
 <?php
 require_once('init.php');
+
 $show_complete_tasks = rand(0, 1);
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 $category_list = getCategories($connection, 1);
 $task_list = getTasks($connection, 1);
+
+// if(isset($_GET['task_id']) && isset($_GET['check'])) {
+
+// }
 
 if(!$isAuth) {
     $content = include_template('guest.php', []);
