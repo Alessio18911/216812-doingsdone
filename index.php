@@ -7,9 +7,10 @@ $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
 $category_list = getCategories($connection, 1);
 $task_list = getTasks($connection, 1);
 
-// if(isset($_GET['task_id']) && isset($_GET['check'])) {
-
-// }
+if(isset($_GET['task_id']) && isset($_GET['check'])) {
+    $task_id = (int)$_GET['task_id'];
+    toggleTaskStatus($connection, $task_id, 1);
+}
 
 if(!$isAuth) {
     $content = include_template('guest.php', []);

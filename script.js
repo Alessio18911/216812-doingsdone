@@ -6,7 +6,7 @@ if ($checkbox.length) {
   $checkbox[0].addEventListener('change', function (event) {
     var is_checked = +event.target.checked;
 
-    window.location = '/index.php&show_completed=' + is_checked;
+    window.location = '/index.php?show_completed=' + is_checked;
   });
 }
 
