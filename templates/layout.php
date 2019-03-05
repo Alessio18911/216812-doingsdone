@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body class="<?= $isGuest ? 'body-background' :''; ?>">
+<body class="<?= $isGuest AND $isSignInOrRegister ? 'body-background' :''; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">

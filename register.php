@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!count($errors)) {
         addUser($connection, $user_name, $password, $email);
-        header("Location: /main.php?main");
+        header("Location: /");
         exit();
     }
 }
@@ -29,7 +29,9 @@ $content = include_template('register.php', [
 
 $layout_content = include_template('layout.php', [
     'content' => $content,
-    'page_title' => 'Дела в порядке'
+    'page_title' => 'Дела в порядке',
+    'isGuest' => !$isAuth,
+    'isSignInOrRegister' => true,
 ]);
 
 print($layout_content);
