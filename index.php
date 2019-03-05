@@ -10,6 +10,8 @@ $task_list = getTasks($connection, 1);
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = (int)$_GET['task_id'];
     toggleTaskStatus($connection, $task_id, 1);
+    header('Location: /');
+    exit();
 }
 
 if(!$isAuth) {

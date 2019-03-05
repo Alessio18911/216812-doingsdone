@@ -119,7 +119,6 @@ function toggleTaskStatus($link, int $task_id, int $user_id) {
     $stmt = db_get_prepare_stmt($link, $sql, [$task_id, $user_id]);
     mysqli_stmt_execute($stmt);
     $status = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))['status'];
-    var_dump($status);
 
     if(!$status) {
         $sql = "UPDATE tasks SET status = 1 WHERE id = ? AND user_id = ?";
