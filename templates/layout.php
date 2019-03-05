@@ -24,7 +24,7 @@
                     <a class="main-header__side-item button button--transparent" href="authentification.php?identify">Войти</a>
 
                 <?php else: ?>
-                <a class="main-header__side-item button button--plus open-modal" href="main.php?main&addtask">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -56,7 +56,7 @@
                     <ul class="main-navigation__list">
                     <?php foreach($category_list as $category): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="/main.php?main&category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
+                            <a class="main-navigation__list-item-link" href="/?category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
                             <span class="main-navigation__list-item-count"><?=countTasks(htmlspecialchars($category['name']), $task_list); ?></span>
                         </li>
                     <?php endforeach; ?>
@@ -83,7 +83,7 @@
         </div>
 
         <?php if(!$isGuest): ?>
-        <a class="main-footer__button button button--plus" href="main.php?main&addtask">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
