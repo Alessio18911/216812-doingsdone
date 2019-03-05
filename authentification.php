@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateAuthForm($connection, $errors);
 
     if(!count($errors)) {
-        header("Location: /index.php?main");
+        header("Location: /main.php?main");
         exit();
     }
 }

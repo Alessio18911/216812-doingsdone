@@ -25,7 +25,7 @@
                 <?php endif; ?>
 
                 <?php if(isset($_GET['main'])): ?>
-                <a class="main-header__side-item button button--plus open-modal" href="index.php?main&addtask">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="main.php?main&addtask">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -57,7 +57,7 @@
                     <ul class="main-navigation__list">
                     <?php foreach($category_list as $category): ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="/index.php?main&category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
+                            <a class="main-navigation__list-item-link" href="/main.php?main&category=<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></a>
                             <span class="main-navigation__list-item-count"><?=countTasks(htmlspecialchars($category['name']), $task_list); ?></span>
                         </li>
                     <?php endforeach; ?>
@@ -65,7 +65,7 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                    href="index.php?main&addproject" target="project_add">Добавить проект</a>
+                    href="main.php?main&addproject" target="project_add">Добавить проект</a>
             </section>
             <?php endif; ?>
             <main class="content__main">
@@ -84,7 +84,7 @@
         </div>
 
         <?php if(isset($_GET['main'])): ?>
-        <a class="main-footer__button button button--plus" href="index.php?main&addtask">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="main.php?main&addtask">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>

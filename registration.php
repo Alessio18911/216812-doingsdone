@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!count($errors)) {
         addUser($connection, $user_name, $password, $email);
-        header("Location: /index.php?main");
+        header("Location: /main.php?main");
         exit();
     }
 }
