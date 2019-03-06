@@ -1,8 +1,8 @@
 <?php
 require_once('init.php');
 
-$category_list = getCategories($connection, 1);
-$task_list = getTasks($connection, 1);
+$category_list = getCategories($connection, $user_id);
+$task_list = getTasks($connection, $user_id);
 $required_field = '';
 $errors = [];
 
@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateTaskForm($required_field, $expires_at, $errors);
 
     if(!count($errors)) {
-        addTask($connection, 1, $category_id, $required_field, $expires_at, $destination);
+        addTask($connection, $user, $category_id, $required_field, $expires_at, $destination);
         header("Location: /");
         exit();
     }

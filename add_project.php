@@ -1,16 +1,17 @@
 <?php
 require_once('init.php');
 
-$category_list = getCategories($connection, 1);
-$task_list = getTasks($connection, 1);
+$user_id = 0;
+$category_list = getCategories($connection, $user_id);
+$task_list = getTasks($connection, $user_id);
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required_field = empty($_POST['name']) ? '' : $_POST['name'];
-    $errors = validateCategoryForm($connection, 1, $required_field, $errors);
+    $errors = validateCategoryForm($connection, $user, $required_field, $errors);
 
     if(!count($errors)) {
-        addCategory($connection, 1, $required_field);
+        addCategory($connection, $user, $required_field);
         header("Location: /");
         exit();
     }
@@ -26,7 +27,8 @@ $layout_content = include_template('layout.php', [
     'isSignInOrRegister' => false,
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'user' => $user
+    'user' => $user,
+    'user_id' => $user_id
 ]);
 
 print($layout_content);
