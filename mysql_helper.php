@@ -92,12 +92,18 @@ function addCategory($link, int $user_id, string $category_name) {
     }
 }
 
-function isEmailExists($link, string $email): int {
-    $sql = "SELECT id FROM users WHERE email = ?";
+function getUserByEmail($link, string $email): ?string {
+    $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    return mysqli_num_rows($result);
+    $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    if(count($result)) {
+        return $result[0]['name'];
+    }
+
+    return null;
 }
 
 function addUser($link, string $user_name, string $password, string $email) {

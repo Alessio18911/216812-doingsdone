@@ -100,7 +100,7 @@ function validateRegisterForm($link, array $required_fields, array $errors): arr
         if($_POST[$field] && $field === 'email') {
             if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
                 $errors[$field] = "Email введён некорректно";
-            } elseif(isEmailExists($link, $_POST[$field])) {
+            } elseif(getUserByEmail($link, $_POST[$field])) {
                 $errors[$field] = "Данный email уже занят. Введите другой email";
             }
         }
@@ -117,7 +117,7 @@ function validateAuthForm($link, array $errors): array {
     if($_POST['email']) {
         if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
-        } elseif(!isEmailExists($link, $_POST['email'])) {
+        } elseif(null === getUserByEmail($link, $_POST['email'])) {
             $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
