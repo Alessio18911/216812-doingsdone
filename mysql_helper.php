@@ -92,7 +92,7 @@ function addCategory($link, int $user_id, string $category_name) {
     }
 }
 
-function getUserByEmail($link, string $email): ?string {
+function getUserByEmail($link, string $email): ?array {
     $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
     mysqli_stmt_execute($stmt);
@@ -100,7 +100,7 @@ function getUserByEmail($link, string $email): ?string {
     $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     if(count($result)) {
-        return $result[0]['name'];
+        return $result;
     }
 
     return null;

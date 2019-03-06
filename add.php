@@ -29,9 +29,8 @@ $content = include_template('add.php', [
 $layout_content = include_template('layout.php', [
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'isGuest' => !$isAuth,
     'isSignInOrRegister' => false,
-    'user' => 'Глупый король',
+    'user' => $user,
     'category_list' => $category_list,
     'task_list' => $task_list
 ]);

@@ -1,6 +1,7 @@
 <?php
 require_once('init.php');
 
+$user = '';
 $email = '';
 $password = '';
 $user_name = '';
@@ -14,6 +15,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateRegisterForm($connection, $required_fields, $errors);
 
     if(!count($errors)) {
+        $_SESSION['user'] = $user = getUserByEmail($connection, $email)[0]['name'];
         addUser($connection, $user_name, $password, $email);
         header("Location: /");
         exit();
@@ -30,8 +32,8 @@ $content = include_template('register.php', [
 $layout_content = include_template('layout.php', [
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'isGuest' => !$isAuth,
     'isSignInOrRegister' => true,
+    'user' => $user
 ]);
 
 print($layout_content);

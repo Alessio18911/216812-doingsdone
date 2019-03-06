@@ -23,11 +23,10 @@ $content = include_template('add_project.php', [
 $layout_content = include_template('layout.php', [
     'category_list' => $category_list,
     'task_list' => $task_list,
-    'isGuest' => !$isAuth,
     'isSignInOrRegister' => false,
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'user' => 'Глупый король'
+    'user' => $user
 ]);
 
 print($layout_content);

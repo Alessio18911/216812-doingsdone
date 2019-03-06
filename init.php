@@ -8,5 +8,5 @@ session_start();
 $connection = getConnection('216812-doingsdone', 'root', '', 'doingsdone');
 $content = '';
 
-$isAuth = false;
+//$isAuth = true;
 $isSignInOrRegister = false;

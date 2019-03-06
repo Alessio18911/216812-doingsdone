@@ -1,6 +1,7 @@
 <?php
 require_once('init.php');
 
+$user = '';
 $show_complete_tasks = rand(0, 1);
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, 1, $category_id);
@@ -14,7 +15,7 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     exit();
 }
 
-if(!$isAuth) {
+if(!$user) {
     $content = include_template('guest.php', []);
 } else {
     $content = include_template('index.php', [
@@ -26,9 +27,8 @@ if(!$isAuth) {
 $layout_content = include_template('layout.php', [
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'isGuest' => !$isAuth,
     'isSignInOrRegister' => false,
-    'user' => 'Глупый король',
+    'user' => $user,
     'category_list' => $category_list,
     'task_list' => $task_list
 ]);

@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body class="<?= ($isGuest && !$isSignInOrRegister) ? 'body-background' :''; ?>">
+<body class="<?= (!$user && !$isSignInOrRegister) ? 'body-background' :''; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container <?= $isGuest ? '' : 'container--with-sidebar'; ?>">
+    <div class="container <?= !$user ? '' : 'container--with-sidebar'; ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if($isGuest): ?>
+                <?php if(!$user): ?>
                     <a class="main-header__side-item button button--transparent" href="sign_in.php">Войти</a>
                 <?php else: ?>
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
@@ -41,14 +41,14 @@
         </header>
 
         <div class="content">
-            <?php if($isGuest AND $isSignInOrRegister): ?>
+            <?php if(!$user AND $isSignInOrRegister): ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
                 <a class="button button--transparent content__side-button" href="sign_in.php">Войти</a>
             </section>
             <?php endif; ?>
 
-            <?php if(!$isGuest): ?>
+            <?php if($user): ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
                 <nav class="main-navigation">
@@ -81,7 +81,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if(!$isGuest): ?>
+        <?php if($user): ?>
         <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
