@@ -1,18 +1,18 @@
 <?php
 require_once('init.php');
 
-$user = isset($_SESSION['user']) ?? '';
-$user_id = isset($_SESSION['user_id']) ?? 0;
+$user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required_field = empty($_POST['name']) ? '' : $_POST['name'];
-    $errors = validateCategoryForm($connection, $user, $required_field, $errors);
+    $errors = validateCategoryForm($connection, $user_id, $required_field, $errors);
 
     if(!count($errors)) {
-        addCategory($connection, $user, $required_field);
+        addCategory($connection, $user_id, $required_field);
         header("Location: /");
         exit();
     }

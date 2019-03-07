@@ -18,8 +18,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!count($errors)) {
         $user = $_SESSION;
         addUser($connection, $user_name, $password, $email);
-        $_SESSION['user'] = $user = getUserByEmail($connection, $email)[0]['name'];
-        $_SESSION['user_id'] = $user_id = getUserByEmail($connection, $email)[0]['id'];
+        $_SESSION['user'] = getUserByEmail($connection, $email)[0]['name'];
+        $_SESSION['user_id'] = getUserByEmail($connection, $email)[0]['id'];
         header("Location: /");
         exit();
     }

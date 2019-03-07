@@ -2,8 +2,8 @@
 require_once('init.php');
 
 $show_complete_tasks = rand(0, 1);
-$user = isset($_SESSION['user']) ?? '';
-$user_id = isset($_SESSION['user_id']) ?? 0;
+$user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, $user_id, $category_id);
 $category_list = getCategories($connection, $user_id);
@@ -11,7 +11,7 @@ $task_list = getTasks($connection, $user_id);
 
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = (int)$_GET['task_id'];
-    toggleTaskStatus($connection, $task_id, $user);
+    toggleTaskStatus($connection, $task_id, $user_id);
     header('Location: /');
     exit();
 }

@@ -1,8 +1,8 @@
 <?php
 require_once('init.php');
 
-$user = isset($_SESSION['user']) ?? '';
-$user_id = isset($_SESSION['user_id']) ?? 0;
+$user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 $required_field = '';
@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateTaskForm($required_field, $expires_at, $errors);
 
     if(!count($errors)) {
-        addTask($connection, $user, $category_id, $required_field, $expires_at, $destination);
+        addTask($connection, $user_id, $category_id, $required_field, $expires_at, $destination);
         header("Location: /");
         exit();
     }
@@ -35,6 +35,7 @@ $layout_content = include_template('layout.php', [
     'page_title' => 'Дела в порядке',
     'isSignInOrRegister' => false,
     'user' => $user,
+    'user_id' => $user_id,
     'category_list' => $category_list,
     'task_list' => $task_list
 ]);

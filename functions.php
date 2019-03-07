@@ -142,7 +142,7 @@ function validateAuthForm($link, array $errors): array {
 function leaveSite() {
     if(isset($_GET['exit'])) {
         $_SESSION = [];
-        header("Location: /");
+        header("Location: /register.php");
         exit();
     }
 }
