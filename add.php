@@ -1,6 +1,8 @@
 <?php
 require_once('init.php');
 
+$user = isset($_SESSION['user']) ?? '';
+$user_id = isset($_SESSION['user_id']) ?? 0;
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 $required_field = '';
@@ -20,11 +22,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$content = include_template('add.php', [
-    'category_list' => $category_list,
-    'required_field' => $required_field,
-    'errors' => $errors
-]);
+if($user) {
+    $content = include_template('add.php', [
+        'category_list' => $category_list,
+        'required_field' => $required_field,
+        'errors' => $errors
+    ]);
+}
 
 $layout_content = include_template('layout.php', [
     'content' => $content,

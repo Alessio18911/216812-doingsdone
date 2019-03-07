@@ -1,7 +1,8 @@
 <?php
 require_once('init.php');
 
-$user_id = 0;
+$user = isset($_SESSION['user']) ?? '';
+$user_id = isset($_SESSION['user_id']) ?? 0;
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 $errors = [];
@@ -17,9 +18,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$content = include_template('add_project.php', [
-    'errors' => $errors
-]);
+if($user) {
+    $content = include_template('add_project.php', [
+        'errors' => $errors
+    ]);
+}
 
 $layout_content = include_template('layout.php', [
     'category_list' => $category_list,

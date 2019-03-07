@@ -138,3 +138,11 @@ function validateAuthForm($link, array $errors): array {
 
     return $errors;
 }
+
+function leaveSite() {
+    if(isset($_GET['exit'])) {
+        $_SESSION = [];
+        header("Location: /");
+        exit();
+    }
+}

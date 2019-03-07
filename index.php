@@ -1,9 +1,9 @@
 <?php
 require_once('init.php');
 
-$user = '';
-$user_id = 0;
 $show_complete_tasks = rand(0, 1);
+$user = isset($_SESSION['user']) ?? '';
+$user_id = isset($_SESSION['user_id']) ?? 0;
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, $user_id, $category_id);
 $category_list = getCategories($connection, $user_id);

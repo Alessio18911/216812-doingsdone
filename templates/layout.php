@@ -32,8 +32,7 @@
 
                     <div class="user-menu__data">
                         <p><?=htmlspecialchars($user); ?></p>
-
-                        <a href="#">Выйти</a>
+                        <a href="/?exit">Выйти</a>
                     </div>
                 </div>
                 <?php endif; ?>
