@@ -1,17 +1,17 @@
 <h2 class="content__main-heading">Добавление задачи</h2>
 
-<form class="form" action="index.php?addtask" method="post" enctype="multipart/form-data">
+<form class="form" action="add.php" method="post" enctype="multipart/form-data">
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
         <p class="form__message"><?= isset($errors['name']) ? $errors['name'] :''; ?></p>
-        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $new_task; ?>" placeholder="Введите название">
+        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $required_field; ?>" placeholder="Введите название">
     </div>
 
     <div class="form__row">
         <label class="form__label" for="project">Проект</label>
         <select class="form__input form__input--select" name="project" id="project">
             <?php foreach($category_list as $category): ?>
-                <option value="<?= $category['id']?>"><?=htmlspecialchars($category['name']); ?></option>
+                <option value="<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></option>
             <?php endforeach; ?>
         </select>
     </div>

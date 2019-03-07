@@ -1,76 +1,38 @@
 <?php
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
-
 require_once('init.php');
 
-$category_list = getCategories($connection, 1);
-$task_list = getTasks($connection, 1);
-
+$show_complete_tasks = rand(0, 1);
+$user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
+$tasks_for_category = getTasksForCategory($connection, $user_id, $category_id);
+$category_list = getCategories($connection, $user_id);
+$task_list = getTasks($connection, $user_id);
 
-if (null !== $category_id && !isCategoryExists($connection, 1, $category_id)) {
-    die(http_response_code(400));
+if(isset($_GET['task_id']) && isset($_GET['check'])) {
+    $task_id = (int)$_GET['task_id'];
+    toggleTaskStatus($connection, $task_id, $user_id);
+    header('Location: /');
+    exit();
 }
 
-$tasks_for_category = getTasksForCategory($connection, 1, $category_id);
-
-if(isset($_GET['addtask'])) {
-    $errors = [];
-
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_field = $post['name'];
-        $category_id = $post['project'];
-        $expires_at = empty($post['date']) ? null : date_format(date_create($post['date']), 'Y-m-d');
-        $destination = savePostedFile($files['preview']);
-        $destination =  $destination ? $destination : '';
-        $errors = validateTaskForm($required_field, $expires_at, $errors);
-
-        if(!count($errors)) {
-            addTask($connection, 1, $category_id, $required_field, $expires_at, $destination);
-            header("Location: /");
-            exit();
-        }
-    }
-
-    $new_task = isset($post['name']) ? $post['name'] : '';
-    $content = include_template('add.php', [
-        'category_list' => $category_list,
-        'new_task' => $new_task,
-        'errors' => $errors
-    ]);
-}
-elseif(isset($_GET['addproject'])) {
-    $errors = [];
-
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $required_field = empty($post['name']) ? '' : $post['name'];
-        $errors = validateCategoryForm($connection, 1, $required_field, $errors);
-
-        if(!count($errors)) {
-            addCategory($connection, 1, $required_field);
-            header("Location: /");
-            exit();
-        }
-    }
-
-    $content = include_template('add_project.php', [
-        'errors' => $errors
-    ]);
-}
-else {
+if(!$user) {
+    $content = include_template('guest.php', []);
+} else {
     $content = include_template('index.php', [
-        'tasks_for_category' => $tasks_for_category,
-        'show_complete_tasks' => $show_complete_tasks
+        'show_complete_tasks'=> $show_complete_tasks,
+        'tasks_for_category' => $tasks_for_category
     ]);
 }
 
 $layout_content = include_template('layout.php', [
-    'category_list' => $category_list,
-    'task_list' => $task_list,
     'content' => $content,
     'page_title' => 'Дела в порядке',
-    'user' => 'Глупый король'
+    'isSignInOrRegister' => false,
+    'user' => $user,
+    'user_id' => $user_id,
+    'category_list' => $category_list,
+    'task_list' => $task_list
 ]);
 
 print($layout_content);

@@ -52,9 +52,7 @@ INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('4', '11', 'В�
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Сидеть и грустить у окна', NULL);
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Мечтать о нём', NULL);
 INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '12', 'Ничего не хотеть', NULL);
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Выкидывать фортели папеньке-королю', NULL);
-INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Ничего не хотеть', NULL);
-
+INSERT INTO tasks(user_id, category_id, name, expires_at) VALUES('5', '13', 'Выкидывать фортели', NULL);
 
 -- Запросы по заданию
 SELECT users.name, categories.name FROM users

@@ -1,5 +1,5 @@
 <h2 class="content__main-heading">Регистрация аккаунта</h2>
-<form class="form" action="identify.php?register" method="post">
+<form class="form" action="register.php" method="post">
     <div class="form__row">
         <label class="form__label" for="email">E-mail <sup>*</sup></label>
         <input class="form__input <?= isset($errors['email']) ? 'form__input--error' : ''; ?>" type="text" name="email" id="email" value="<?= isset($errors['email']) ? '' : $email; ?>" placeholder="Введите e-mail">

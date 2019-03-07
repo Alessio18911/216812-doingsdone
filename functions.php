@@ -85,22 +85,22 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
     $new_category = isCategory($link, $user_id, $required_field);
 
     if($new_category) {
-        $errors['name'] = 'Выберите другое имя!';
+        $errors['name'] = 'Проект с данным именем уже существует! Выберите другое имя';
     }
 
     return $errors;
 }
 
-function validateRegisterForm($link, array $required_fields, array $post, array $errors): array {
+function validateRegisterForm($link, array $required_fields, array $errors): array {
     foreach($required_fields as $field) {
-        if(!$post[$field]) {
+        if(!$_POST[$field]) {
             $errors[$field] = "Это поле должно быть заполнено!";
         }
 
-        if($post[$field] && $field === 'email') {
-            if(!filter_var($post[$field], FILTER_VALIDATE_EMAIL)) {
+        if($_POST[$field] && $field === 'email') {
+            if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
                 $errors[$field] = "Email введён некорректно";
-            } elseif(isEmailExists($link, $post[$field])) {
+            } elseif(getUserByEmail($link, $_POST[$field])) {
                 $errors[$field] = "Данный email уже занят. Введите другой email";
             }
         }
@@ -111,4 +111,38 @@ function validateRegisterForm($link, array $required_fields, array $post, array 
     }
 
     return $errors;
+}
+
+function validateAuthForm($link, array $errors): array {
+    if($_POST['email']) {
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Email введён некорректно";
+        } elseif(null === getUserByEmail($link, $_POST['email'])) {
+            $errors['email'] = "Пользователь с таким email отсутствует";
+        }
+    } else {
+        $errors['email'] = "Это поле нужно заполнить!";
+    }
+
+    if($_POST['password'] && $_POST['email']) {
+        $user_password = getUserPassword($link, $_POST['email']);
+        $result = password_verify($_POST['password'], $user_password);
+
+        if(!$result) {
+            $errors['password'] = "Пароль указан неверно!";
+        }
+
+    } else {
+        $errors['password'] = "Это поле нужно заполнить!";
+    }
+
+    return $errors;
+}
+
+function leaveSite() {
+    if(isset($_GET['exit'])) {
+        $_SESSION = [];
+        header("Location: /register.php");
+        exit();
+    }
 }
