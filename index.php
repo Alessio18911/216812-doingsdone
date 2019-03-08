@@ -8,7 +8,7 @@ $term = isset($_GET['term'])? $_GET['term'] : '';
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : null;
 $tasks_for_category = getTasksForCategory($connection, $user_id, $category_id, $term);
 $category_list = getCategories($connection, $user_id);
-$task_list = getAllTasks($connection, $user_id);
+$task_list = getTasks($connection, $user_id);
 
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = (int)$_GET['task_id'];

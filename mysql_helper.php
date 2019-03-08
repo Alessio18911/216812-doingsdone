@@ -11,14 +11,14 @@ function getConnection(string $host, string $user, string $password, string $dat
     return $link;
 }
 
-function fetchData($link, string $sql): array {
-    $result = mysqli_query($link, $sql);
+function fetchData($link, $stmt): array {
+    $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
 
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
 }
 
 function getCategories($link, int $user_id): array {
@@ -28,15 +28,10 @@ function getCategories($link, int $user_id): array {
 
     $stmt = db_get_prepare_stmt($link, $sql_cat, [$user_id]);
 
-    if(!mysqli_stmt_execute($stmt)) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
-
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return fetchData($link, $stmt);
 }
 
-function getAllTasks($link, int $user_id): array {
+function getTasks($link, int $user_id): array {
     $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
         JOIN categories ON tasks.category_id = categories.id
         JOIN users ON categories.user_id = users.id
@@ -44,12 +39,7 @@ function getAllTasks($link, int $user_id): array {
 
     $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id]);
 
-    if(!mysqli_stmt_execute($stmt)) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
-
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return fetchData($link, $stmt);
 }
 
 function isCategoryExists($link, int $user_id, int $category_id): bool {
@@ -57,12 +47,8 @@ function isCategoryExists($link, int $user_id, int $category_id): bool {
 
     $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id]);
 
-    if(!mysqli_stmt_execute($stmt)) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
-
-    $result = mysqli_stmt_get_result($stmt);
-    return !empty(mysqli_fetch_all($result, MYSQLI_ASSOC));
+    $result = fetchData($link, $stmt);
+    return !empty($result);
 }
 
 function isCategory($link, int $user_id, string $category_to_insert): int {
@@ -87,13 +73,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
                 WHERE tasks.user_id = ? AND tasks.expires_at = ?";
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
-            if(!mysqli_stmt_execute($stmt)) {
-                die("Ошибка MySQL: " . mysqli_error($link));
-            }
-
-            $result = mysqli_stmt_get_result($stmt);
-
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return fetchData($link, $stmt);
 
         } else if($term === "tomorrow") {
             $term = date('Y-m-d', strtotime('+1 day'));
@@ -102,13 +82,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
                 WHERE tasks.user_id = ? AND tasks.expires_at = ?";
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
-            if(!mysqli_stmt_execute($stmt)) {
-                die("Ошибка MySQL: " . mysqli_error($link));
-            }
-
-            $result = mysqli_stmt_get_result($stmt);
-
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return fetchData($link, $stmt);
 
         } else if ($term === "overdue") {
             $term = date('Y-m-d');
@@ -117,13 +91,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
                 WHERE tasks.user_id = ? AND tasks.expires_at < ?";
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
-            if(!mysqli_stmt_execute($stmt)) {
-                die("Ошибка MySQL: " . mysqli_error($link));
-            }
-
-            $result = mysqli_stmt_get_result($stmt);
-
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return fetchData($link, $stmt);
         }
     }
 
@@ -136,12 +104,7 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
 
         $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id]);
 
-        if(!mysqli_stmt_execute($stmt)) {
-            die("Ошибка MySQL: " . mysqli_error($link));
-        }
-
-        $result = mysqli_stmt_get_result($stmt);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return fetchData($link, $stmt);
 
     } else {
         $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
@@ -151,14 +114,8 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
             ORDER BY tasks.created_at DESC";
 
         $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id]);
-        if(!mysqli_stmt_execute($stmt)) {
-            die("Ошибка MySQL: " . mysqli_error($link));
-        }
 
-        $result = mysqli_stmt_get_result($stmt);
-
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
-
+        return fetchData($link, $stmt);
     }
 }
 
@@ -187,12 +144,7 @@ function getUserByEmail($link, string $email): ?array {
     $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
 
-    if(!mysqli_stmt_execute($stmt)) {
-        die("Ошибка MySQL: " . mysqli_error($link));
-    }
-
-    $result = mysqli_stmt_get_result($stmt);
-    $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $result = fetchData($link, $stmt);
 
     if(count($result)) {
         return $result;
