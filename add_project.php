@@ -4,7 +4,7 @@ require_once('init.php');
 $user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_list = getCategories($connection, $user_id);
-$task_list = getTasks($connection, $user_id);
+$task_list = getAllTasks($connection, $user_id);
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
