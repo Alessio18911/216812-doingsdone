@@ -11,64 +11,112 @@ function getConnection(string $host, string $user, string $password, string $dat
     return $link;
 }
 
-function fetchData($link, string $sql): array {
-    $result = mysqli_query($link, $sql);
+function fetchData($link, $stmt): array {
+    $result = mysqli_stmt_execute($stmt);
 
     if(!$result) {
         die("Ошибка MySQL: " . mysqli_error($link));
     }
 
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
 }
 
 function getCategories($link, int $user_id): array {
     $sql_cat = "SELECT categories.id, categories.name FROM categories
                 JOIN users ON categories.user_id = users.id
-                WHERE users.id = $user_id";
+                WHERE users.id = ?";
 
-    return fetchData($link, $sql_cat);
+    $stmt = db_get_prepare_stmt($link, $sql_cat, [$user_id]);
+
+    return fetchData($link, $stmt);
 }
 
 function getTasks($link, int $user_id): array {
     $sql_tasks = "SELECT tasks.name, tasks.created_at, tasks.expires_at, categories.name AS categories_name, status FROM tasks
         JOIN categories ON tasks.category_id = categories.id
         JOIN users ON categories.user_id = users.id
-        WHERE users.id = $user_id";
+        WHERE users.id = ?";
 
-    return fetchData($link, $sql_tasks);
+    $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id]);
+
+    return fetchData($link, $stmt);
 }
 
 function isCategoryExists($link, int $user_id, int $category_id): bool {
-    $sql = "SELECT name FROM categories WHERE user_id = $user_id AND id = $category_id";
-    return !empty(fetchData($link, $sql));
+    $sql = "SELECT name FROM categories WHERE user_id = ? AND id = ?";
+
+    $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id]);
+
+    $result = fetchData($link, $stmt);
+    return !empty($result);
 }
 
 function isCategory($link, int $user_id, string $category_to_insert): int {
     $sql = "SELECT id FROM categories WHERE user_id = ? AND name = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_to_insert]);
-    mysqli_stmt_execute($stmt);
+
+    if(!mysqli_stmt_execute($stmt)) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
     $result = mysqli_stmt_get_result($stmt);
+
     return mysqli_num_rows($result);
 }
 
-function getTasksForCategory($link, int $user_id, int $category_id = null): array
-{
+function getTasksForCategory($link, int $user_id, int $category_id = null, $term = null): ?array {
+    if(null !== $term) {
+        if($term === "today") {
+            $term = date('Y-m-d');
+            $sql_tasks = getSqlForGetTasksForCategory("=");
+            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
+
+            return fetchData($link, $stmt);
+
+        } else if($term === "tomorrow") {
+            $term = date('Y-m-d', strtotime('+1 day'));
+            $sql_tasks = getSqlForGetTasksForCategory("=");
+            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
+
+            return fetchData($link, $stmt);
+
+        } else if ($term === "overdue") {
+            $term = date('Y-m-d');
+            $sql_tasks = getSqlForGetTasksForCategory("<");
+            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
+
+            return fetchData($link, $stmt);
+        }
+    }
+
     if (null === $category_id) {
         $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
-            WHERE users.id = $user_id
+            WHERE users.id = ?
             ORDER BY tasks.created_at DESC";
+
+        $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id]);
+
+        return fetchData($link, $stmt);
 
     } else {
         $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
-            WHERE users.id = $user_id AND categories.id = $category_id
+            WHERE users.id = ? AND categories.id = ?
             ORDER BY tasks.created_at DESC";
-    }
 
-    return fetchData($link, $sql_tasks);
+        $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id]);
+
+        return fetchData($link, $stmt);
+    }
+}
+
+function getSqlForGetTasksForCategory(string $expiresAtOperator): string {
+    return "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+    JOIN users ON tasks.user_id = users.id
+    WHERE tasks.user_id = ? AND tasks.expires_at $expiresAtOperator ?";
 }
 
 function addTask($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {
@@ -95,9 +143,8 @@ function addCategory($link, int $user_id, string $category_name) {
 function getUserByEmail($link, string $email): ?array {
     $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    $result = fetchData($link, $stmt);
 
     if(count($result)) {
         return $result;
@@ -110,14 +157,19 @@ function addUser($link, string $user_name, string $password, string $email) {
     $password = password_hash($password, PASSWORD_DEFAULT);
     $sql = "INSERT INTO users(name, password, email) VALUES(?, ?, ?)";
     $stmt = db_get_prepare_stmt($link, $sql, [$user_name, $password, $email]);
-    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_execute($stmt);
 }
 
 function getUserPassword($link, string $email): ?string {
     $sql = "SELECT password FROM users WHERE email = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$email]);
-    mysqli_stmt_execute($stmt);
-    return mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))['password'];
+
+    if(!mysqli_stmt_execute($stmt)) {
+        die("Ошибка MySQL: " . mysqli_error($link));
+    }
+
+    $result = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    return $result['password'];
 }
 
 function toggleTaskStatus($link, int $task_id, int $user_id) {
