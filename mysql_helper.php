@@ -68,27 +68,21 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
     if(null !== $term) {
         if($term === "today") {
             $term = date('Y-m-d');
-            $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
-                JOIN users ON tasks.user_id = users.id
-                WHERE tasks.user_id = ? AND tasks.expires_at = ?";
+            $sql_tasks = getSqlForGetTasksForCategory("=");
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
             return fetchData($link, $stmt);
 
         } else if($term === "tomorrow") {
             $term = date('Y-m-d', strtotime('+1 day'));
-            $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
-                JOIN users ON tasks.user_id = users.id
-                WHERE tasks.user_id = ? AND tasks.expires_at = ?";
+            $sql_tasks = getSqlForGetTasksForCategory("=");
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
             return fetchData($link, $stmt);
 
         } else if ($term === "overdue") {
             $term = date('Y-m-d');
-            $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
-                JOIN users ON tasks.user_id = users.id
-                WHERE tasks.user_id = ? AND tasks.expires_at < ?";
+            $sql_tasks = getSqlForGetTasksForCategory("<");
             $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
 
             return fetchData($link, $stmt);
@@ -186,6 +180,12 @@ function toggleTaskStatus($link, int $task_id, int $user_id) {
 
     $stmt = db_get_prepare_stmt($link, $sql, [$task_id, $user_id]);
     mysqli_stmt_execute($stmt);
+}
+
+function getSqlForGetTasksForCategory(string $expiresAtOperator): string {
+    return "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+    JOIN users ON tasks.user_id = users.id
+    WHERE tasks.user_id = ? AND tasks.expires_at $expiresAtOperator ?";
 }
 
 /**

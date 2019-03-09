@@ -10,7 +10,6 @@ $tasks_for_category = getTasksForCategory($connection, $user_id, $category_id, $
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 
-
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = (int)$_GET['task_id'];
     toggleTaskStatus($connection, $task_id, $user_id);
