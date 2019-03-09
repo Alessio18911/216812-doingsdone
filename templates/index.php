@@ -32,7 +32,7 @@
         </td>
 
         <td class="task__file">
-            <?php if(isset($task['file_path'])): ?>
+            <?php if(!empty($task['file_path'])): ?>
                 <a class="download-link" href="<?= $task['file_path']; ?>"><?= $task['file_path']; ?></a>
             <?php endif; ?>
         </td>
