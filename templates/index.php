@@ -15,7 +15,7 @@
     </nav>
 
     <label class="checkbox">
-        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?=$show_complete_tasks ? 'checked':''; ?>>
+        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?=$show_completed ? 'checked':''; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
 </div>
@@ -31,14 +31,17 @@
             </label>
         </td>
 
+
         <td class="task__file">
-            <a class="download-link" href="<?= $task['file_path']; ?>"><?= $task['file_path']; ?></a>
+            <?php if(isset($task['file_path'])): ?>
+                <a class="download-link" href="<?= $task['file_path']; ?>"><?= $task['file_path']; ?></a>
+            <?php endif; ?>
         </td>
 
         <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
     </tr>
 
-    <?php elseif($show_complete_tasks && $task['status']): ?>
+    <?php elseif($show_completed && $task['status']): ?>
     <tr class="tasks__item task <?=$task['status'] ? 'task--completed':''; ?>">
         <td class="task__select">
             <label class="checkbox task__checkbox">
