@@ -31,7 +31,6 @@
             </label>
         </td>
 
-
         <td class="task__file">
             <?php if(isset($task['file_path'])): ?>
                 <a class="download-link" href="<?= $task['file_path']; ?>"><?= $task['file_path']; ?></a>
@@ -50,10 +49,13 @@
             </label>
         </td>
 
-        <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
-
-        <td class="task__controls">
+        <td class="task__file">
+            <?php if(isset($task['file_path'])): ?>
+                <a class="download-link" href="<?= $task['file_path']; ?>"><?= $task['file_path']; ?></a>
+            <?php endif; ?>
         </td>
+
+        <td class="task__date"><?=formatDate($task['expires_at']); ?></td>
     </tr>
     <? endif ?>
     <? endforeach; ?>
