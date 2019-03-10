@@ -9,7 +9,7 @@ $required_field = '';
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_field = $_POST['name'];
+    $required_field = trim($_POST['name']);
     $category_id = $_POST['project'];
     $expires_at = empty($_POST['date']) ? null : date_format(date_create($_POST['date']), 'Y-m-d');
     $destination = savePostedFile($_FILES['preview']) ?? '';

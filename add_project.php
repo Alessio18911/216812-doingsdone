@@ -8,7 +8,7 @@ $task_list = getTasks($connection, $user_id);
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_field = empty($_POST['name']) ? '' : $_POST['name'];
+    $required_field = empty($_POST['name']) ? '' : trim($_POST['name']);
     $errors = validateCategoryForm($connection, $user_id, $required_field, $errors);
 
     if(!count($errors)) {

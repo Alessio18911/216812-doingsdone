@@ -11,8 +11,8 @@ $errors = [];
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required_fields = ['email', 'password', 'name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $user_name = $_POST['name'];
+    $password = trim($_POST['password']);
+    $user_name = trim($_POST['name']);
     $errors = validateRegisterForm($connection, $required_fields, $errors);
 
     if(!count($errors)) {

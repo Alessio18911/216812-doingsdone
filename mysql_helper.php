@@ -109,7 +109,7 @@ function getAllTasksForCategory($link, int $user_id, int $category_id, string $t
     }
 }
 
-function getTasksForCategory($link, string $expiresAtOperator, int $user_id, int $category_id, string $term): array {
+function getTasksForCategory($link, string $expiresAtOperator, int $user_id, int $category_id, string $term = null): array {
     $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
         JOIN categories ON tasks.category_id = categories.id
         JOIN users ON categories.user_id = users.id
