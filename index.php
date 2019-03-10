@@ -6,7 +6,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $term = isset($_GET['term']) ? $_GET['term'] : 'all';
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : 0;
-$tasks_for_category = getTasksForCategory($connection, $user_id, $category_id, $term);
+$tasks_for_category = getAllTasksForCategory($connection, $user_id, $category_id, $term);
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
 
