@@ -4,6 +4,7 @@ require_once('init.php');
 $user = isset($_SESSION['user']) ? $_SESSION['user'] :'';
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_list = getCategories($connection, $user_id);
+$term = isset($_GET['term']) ? $_GET['term'] : 'all';
 $task_list = getTasks($connection, $user_id);
 $required_field = '';
 $errors = [];
@@ -37,6 +38,7 @@ $layout_content = include_template('layout.php', [
     'user' => $user,
     'user_id' => $user_id,
     'category_list' => $category_list,
+    'term' => $term,
     'task_list' => $task_list
 ]);
 
