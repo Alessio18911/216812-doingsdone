@@ -13,10 +13,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required_field = trim($_POST['name']);
     $category_id = $_POST['project'];
     $expires_at = empty($_POST['date']) ? null : date_format(date_create($_POST['date']), 'Y-m-d');
-    $destination = savePostedFile($_FILES['preview']) ?? '';
     $errors = validateTaskForm($required_field, $expires_at, $errors);
 
     if(!count($errors)) {
+        $destination = savePostedFile($_FILES['preview']) ?? '';
         addTask($connection, $user_id, $category_id, $required_field, $expires_at, $destination);
         header("Location: /");
         exit();
