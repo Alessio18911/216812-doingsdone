@@ -13,9 +13,9 @@ if(!empty($_SESSION)) {
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $errors = validateAuthForm($connection, $errors);
+    $email = isset($_POST['email']) ? $_POST['email'] : $email;
+    $password = isset($_POST['password']) ? $_POST['password'] : $password;
+    $errors = validateAuthForm($connection, $email, $password, $errors);
 
     if(!count($errors)) {
         $_SESSION['user'] = getUserByEmail($connection, $email)[0]['name'];

@@ -113,20 +113,20 @@ function validateRegisterForm($link, array $required_fields, array $errors): arr
     return $errors;
 }
 
-function validateAuthForm($link, array $errors): array {
-    if($_POST['email']) {
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+function validateAuthForm($link, $email, $password, array $errors): array {
+    if($email) {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
-        } elseif(null === getUserByEmail($link, $_POST['email'])) {
+        } elseif(null === getUserByEmail($link, $email)) {
             $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
         $errors['email'] = "Это поле нужно заполнить!";
     }
 
-    if($_POST['password'] && $_POST['email']) {
-        $user_password = getUserPassword($link, $_POST['email']);
-        $result = password_verify($_POST['password'], $user_password);
+    if($password && $email) {
+        $user_password = getUserPassword($link, $email);
+        $result = password_verify($password, $user_password);
 
         if(!$result) {
             $errors['password'] = "Пароль указан неверно!";
