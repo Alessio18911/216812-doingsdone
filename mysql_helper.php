@@ -129,11 +129,10 @@ function getTasksForUser($link, string $expiresAtOperator, int $user_id, string 
     return fetchData($link, $stmt);
 }
 
-function addTask($link, int $user_id, ?string $category_id, string $task_name, ?string $expires_at, string $destination) {
+function addTask($link, int $user_id, string $task_name, ?int $category_id, ?string $expires_at, string $destination) {
     if(null !== $category_id) {
-        $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
-
-        $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $task_name, $expires_at, $destination]);
+        $sql = "INSERT INTO tasks(user_id, name, category_id, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
+        $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $task_name, $category_id, $expires_at, $destination]);
         $result = mysqli_stmt_execute($stmt);
 
         if(!$result) {

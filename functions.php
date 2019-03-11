@@ -59,8 +59,8 @@ function savePostedFile(array $file): ?string {
     return $destination;
 }
 
-function validateTaskForm(string $required_field, ?string $expires_at, array $errors): array {
-    if(!$required_field) {
+function validateTaskForm(string $task_name, ?string $expires_at, array $errors): array {
+    if(!$task_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
     }
 

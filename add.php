@@ -6,18 +6,18 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $category_list = getCategories($connection, $user_id);
 $term = isset($_GET['term']) ? $_GET['term'] : 'all';
 $task_list = getTasks($connection, $user_id);
-$required_field = '';
+$task_name = '';
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_field = trim($_POST['name']);
+    $task_name = isset($_POST['name']) ? trim($_POST['name']) : $task_name;
     $category_id = empty($_POST['project']) ? 0 : (int)$_POST['project'];
-    $expires_at = empty($_POST['date']) ? null : date_format(date_create($_POST['date']), 'Y-m-d');
-    $errors = validateTaskForm($required_field, $expires_at, $errors);
+    $expires_at = !empty($_POST['date']) ? date_format(date_create($_POST['date']), 'Y-m-d') : null;
+    $errors = validateTaskForm($task_name, $expires_at, $errors);
 
     if(!count($errors)) {
         $destination = savePostedFile($_FILES['preview']) ?? '';
-        addTask($connection, $user_id, $category_id, $required_field, $expires_at, $destination);
+        addTask($connection, $user_id, $task_name, $category_id, $expires_at, $destination);
         header("Location: /");
         exit();
     }
@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 if($user) {
     $content = include_template('add.php', [
         'category_list' => $category_list,
-        'required_field' => $required_field,
+        'task_name' => $task_name,
         'errors' => $errors
     ]);
 }
