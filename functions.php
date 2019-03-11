@@ -59,13 +59,9 @@ function savePostedFile(array $file): ?string {
     return $destination;
 }
 
-function validateTaskForm(string $task_name, string $category_id, ?string $expires_at, array $errors): array {
-    if(!$task_name) {
+function validateTaskForm(string $required_field, ?string $expires_at, array $errors): array {
+    if(!$required_field) {
         $errors['name'] =  'Это поле нужно заполнить!';
-    }
-
-    if(!$category_id) {
-        $errors['project'] =  'Нельзя создать задачу без проекта';
     }
 
     if($expires_at) {
