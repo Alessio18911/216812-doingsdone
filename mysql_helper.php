@@ -64,32 +64,8 @@ function isCategory($link, int $user_id, string $category_to_insert): int {
     return mysqli_num_rows($result);
 }
 
-function getTasksForCategory($link, int $user_id, int $category_id = null, $term = null): ?array {
-    if(null !== $term) {
-        if($term === "today") {
-            $term = date('Y-m-d');
-            $sql_tasks = getSqlForGetTasksForCategory("=");
-            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
-
-            return fetchData($link, $stmt);
-
-        } else if($term === "tomorrow") {
-            $term = date('Y-m-d', strtotime('+1 day'));
-            $sql_tasks = getSqlForGetTasksForCategory("=");
-            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
-
-            return fetchData($link, $stmt);
-
-        } else if ($term === "overdue") {
-            $term = date('Y-m-d');
-            $sql_tasks = getSqlForGetTasksForCategory("<");
-            $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
-
-            return fetchData($link, $stmt);
-        }
-    }
-
-    if (null === $category_id) {
+function getAllTasksForCategory($link, int $user_id, int $category_id, string $term): array {
+    if(!$category_id && $term === "all") {
         $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
@@ -97,26 +73,62 @@ function getTasksForCategory($link, int $user_id, int $category_id = null, $term
             ORDER BY tasks.created_at DESC";
 
         $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id]);
-
         return fetchData($link, $stmt);
 
-    } else {
+    } else if(!$category_id && $term === "today") {
+        $term = date('Y-m-d');
+        return getTasksForUser($link, '=', $user_id, $term);
+
+    } else if(!$category_id && $term === "tomorrow") {
+        $term = date('Y-m-d', strtotime('+1 day'));
+        return getTasksForUser($link, '=', $user_id, $term);
+
+    } else if(!$category_id && $term === "overdue") {
+        $term = date('Y-m-d');
+        return getTasksForUser($link, '<', $user_id, $term);
+    } else if($category_id && $term === "all") {
         $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
             JOIN categories ON tasks.category_id = categories.id
             JOIN users ON categories.user_id = users.id
             WHERE users.id = ? AND categories.id = ?
             ORDER BY tasks.created_at DESC";
-
         $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id]);
-
         return fetchData($link, $stmt);
+
+    } else if($category_id && $term === "today") {
+        $term = date('Y-m-d');
+        return getTasksForCategory($link, '=', $user_id, $category_id, $term);
+
+    } else if($category_id && $term === "tomorrow") {
+        $term = date('Y-m-d', strtotime('+1 day'));
+        return getTasksForCategory($link, '=', $user_id, $category_id, $term);
+
+    } else if($category_id && $term === "overdue") {
+        $term = date('Y-m-d');
+        return getTasksForCategory($link, '<', $user_id, $category_id, $term);
     }
 }
 
-function getSqlForGetTasksForCategory(string $expiresAtOperator): string {
-    return "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
-    JOIN users ON tasks.user_id = users.id
-    WHERE tasks.user_id = ? AND tasks.expires_at $expiresAtOperator ?";
+function getTasksForCategory($link, string $expiresAtOperator, int $user_id, int $category_id, string $term): array {
+    $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+        JOIN categories ON tasks.category_id = categories.id
+        JOIN users ON categories.user_id = users.id
+        WHERE users.id = ? AND categories.id = ? AND tasks.expires_at $expiresAtOperator ?
+        ORDER BY tasks.created_at DESC";
+
+    $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $category_id, $term]);
+    return fetchData($link, $stmt);
+}
+
+function getTasksForUser($link, string $expiresAtOperator, int $user_id, string $term): array {
+    $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
+            JOIN categories ON tasks.category_id = categories.id
+            JOIN users ON categories.user_id = users.id
+            WHERE users.id = ? AND tasks.expires_at $expiresAtOperator ?
+            ORDER BY tasks.created_at DESC";
+
+    $stmt = db_get_prepare_stmt($link, $sql_tasks, [$user_id, $term]);
+    return fetchData($link, $stmt);
 }
 
 function addTask($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {

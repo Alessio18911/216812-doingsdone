@@ -8,10 +8,10 @@
 
 <div class="tasks-controls">
     <nav class="tasks-switch">
-        <a href="/" class="tasks-switch__item <?= $all_tasks ? 'tasks-switch__item--active' :''; ?>">Все задачи</a>
-        <a href="/?term=today" class="tasks-switch__item <?= $today_tasks ? 'tasks-switch__item--active' :''; ?>">Повестка дня</a>
-        <a href="/?term=tomorrow" class="tasks-switch__item <?= $tomorrow_tasks ? 'tasks-switch__item--active' :''; ?>">Завтра</a>
-        <a href="/?term=overdue" class="tasks-switch__item <?= $overdue_tasks ? 'tasks-switch__item--active' :''; ?>">Просроченные</a>
+        <a href="/?category=<?=$category_id; ?>&term=all" class="tasks-switch__item <?= $term === "all" ? 'tasks-switch__item--active':''; ?>">Все задачи</a>
+        <a href="/?category=<?=$category_id; ?>&term=today" class="tasks-switch__item <?= $term === "today" ? 'tasks-switch__item--active':''; ?>">Повестка дня</a>
+        <a href="/?category=<?=$category_id; ?>&term=tomorrow" class="tasks-switch__item <?= $term === "tomorrow" ? 'tasks-switch__item--active':''; ?>">Завтра</a>
+        <a href="/?category=<?=$category_id; ?>&term=overdue" class="tasks-switch__item <?= $term === "overdue" ? 'tasks-switch__item--active':''; ?>">Просроченные</a>
     </nav>
 
     <label class="checkbox">
