@@ -7,6 +7,11 @@ $email = '';
 $password = '';
 $errors = [];
 
+if(!empty($_SESSION)) {
+    header("Location: /");
+    exit();
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];

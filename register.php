@@ -8,6 +8,11 @@ $password = '';
 $user_name = '';
 $errors = [];
 
+if(!empty($_SESSION)) {
+    header("Location: /");
+    exit();
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required_fields = ['email', 'password', 'name'];
     $email = $_POST['email'];
