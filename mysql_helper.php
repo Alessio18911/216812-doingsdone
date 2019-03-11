@@ -66,10 +66,9 @@ function isCategory($link, int $user_id, string $category_to_insert): int {
 
 function getAllTasksForCategory($link, int $user_id, int $category_id, string $term): array {
     if(!$category_id) {
-        if( $term === "all") {
-            $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
-                JOIN categories ON tasks.category_id = categories.id
-                JOIN users ON categories.user_id = users.id
+        if($term === "all") {
+            $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+                JOIN users ON tasks.user_id = users.id
                 WHERE users.id = ?
                 ORDER BY tasks.created_at DESC";
 
