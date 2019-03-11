@@ -146,7 +146,7 @@ function validateAuthForm($link, $email, $password, array $errors): array {
 function signOut() {
     if(isset($_GET['exit'])) {
         $_SESSION = [];
-        header("Location: /register.php");
+        header("Location: /");
         exit();
     }
 }
