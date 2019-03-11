@@ -12,7 +12,7 @@ $errors = [];
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $task_name = isset($_POST['name']) ? trim($_POST['name']) : $task_name;
     $category_id = empty($_POST['project']) ? 0 : (int)$_POST['project'];
-    $expires_at = !empty($_POST['date']) ? date_format(date_create($_POST['date']), 'Y-m-d') : null;
+    $expires_at = empty($_POST['date']) ? null : date_format(date_create($_POST['date']), 'Y-m-d');
     $errors = validateTaskForm($task_name, $expires_at, $errors);
 
     if(!count($errors)) {

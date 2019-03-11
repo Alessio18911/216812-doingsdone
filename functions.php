@@ -76,13 +76,13 @@ function validateTaskForm(string $task_name, ?string $expires_at, array $errors)
     return $errors;
 }
 
-function validateCategoryForm($link, int $user_id, string $required_field, array $errors): array {
-    if(!$required_field) {
+function validateCategoryForm($link, int $user_id, string $category_name, array $errors): array {
+    if(!$category_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
         return $errors;
     }
 
-    $new_category = isCategory($link, $user_id, $required_field);
+    $new_category = isCategory($link, $user_id, $category_name);
 
     if($new_category) {
         $errors['name'] = 'Проект с данным именем уже существует! Выберите другое имя';
