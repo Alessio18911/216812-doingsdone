@@ -59,8 +59,8 @@ function savePostedFile(array $file): ?string {
     return $destination;
 }
 
-function validateTaskForm(string $required_field, ?string $expires_at, array $errors): array {
-    if(!$required_field) {
+function validateTaskForm(string $task_name, ?string $expires_at, array $errors): array {
+    if(!$task_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
     }
 
@@ -76,13 +76,13 @@ function validateTaskForm(string $required_field, ?string $expires_at, array $er
     return $errors;
 }
 
-function validateCategoryForm($link, int $user_id, string $required_field, array $errors): array {
-    if(!$required_field) {
+function validateCategoryForm($link, int $user_id, string $category_name, array $errors): array {
+    if(!$category_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
         return $errors;
     }
 
-    $new_category = isCategory($link, $user_id, $required_field);
+    $new_category = isCategory($link, $user_id, $category_name);
 
     if($new_category) {
         $errors['name'] = 'Проект с данным именем уже существует! Выберите другое имя';
@@ -91,19 +91,23 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
     return $errors;
 }
 
-function validateRegisterForm($link, array $required_fields, array $errors): array {
-    foreach($required_fields as $field) {
-        if(!$_POST[$field]) {
-            $errors[$field] = "Это поле должно быть заполнено!";
+function validateRegisterForm($link, string $email, string $password, string $user_name, array $errors): array {
+    if(!$email) {
+        $errors['email'] = "Это поле должно быть заполнено!";
+    } else {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Email введён некорректно";
+        } else if(getUserByEmail($link, $email)) {
+            $errors['email'] = "Данный email уже занят. Введите другой email";
         }
+    }
 
-        if($_POST[$field] && $field === 'email') {
-            if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
-                $errors[$field] = "Email введён некорректно";
-            } elseif(getUserByEmail($link, $_POST[$field])) {
-                $errors[$field] = "Данный email уже занят. Введите другой email";
-            }
-        }
+    if(!$password) {
+        $errors['password'] = "Это поле должно быть заполнено!";
+    }
+
+    if(!$user_name) {
+        $errors['name'] = "Это поле должно быть заполнено!";
     }
 
     if(count($errors)) {
@@ -113,20 +117,20 @@ function validateRegisterForm($link, array $required_fields, array $errors): arr
     return $errors;
 }
 
-function validateAuthForm($link, array $errors): array {
-    if($_POST['email']) {
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+function validateAuthForm($link, $email, $password, array $errors): array {
+    if($email) {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
-        } elseif(null === getUserByEmail($link, $_POST['email'])) {
+        } else if(null === getUserByEmail($link, $email)) {
             $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
         $errors['email'] = "Это поле нужно заполнить!";
     }
 
-    if($_POST['password'] && $_POST['email']) {
-        $user_password = getUserPassword($link, $_POST['email']);
-        $result = password_verify($_POST['password'], $user_password);
+    if($password && $email) {
+        $user_password = getUserPassword($link, $email);
+        $result = password_verify($password, $user_password);
 
         if(!$result) {
             $errors['password'] = "Пароль указан неверно!";
@@ -139,10 +143,10 @@ function validateAuthForm($link, array $errors): array {
     return $errors;
 }
 
-function leaveSite() {
+function signOut() {
     if(isset($_GET['exit'])) {
         $_SESSION = [];
-        header("Location: /register.php");
+        header("Location: /");
         exit();
     }
 }

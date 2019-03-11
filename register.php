@@ -8,12 +8,16 @@ $password = '';
 $user_name = '';
 $errors = [];
 
+if(!empty($_SESSION)) {
+    header("Location: /");
+    exit();
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_fields = ['email', 'password', 'name'];
-    $email = $_POST['email'];
-    $password = trim($_POST['password']);
-    $user_name = trim($_POST['name']);
-    $errors = validateRegisterForm($connection, $required_fields, $errors);
+    $email = isset($_POST['email']) ? $_POST['email'] : $email;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : $password;
+    $user_name = isset($_POST['name']) ? trim($_POST['name']) : $user_name;
+    $errors = validateRegisterForm($connection, $email, $password, $user_name, $errors);
 
     if(!count($errors)) {
         $user = $_SESSION;
