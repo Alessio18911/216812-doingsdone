@@ -9,11 +9,11 @@ $task_list = getTasks($connection, $user_id);
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_field = empty($_POST['name']) ? '' : trim($_POST['name']);
-    $errors = validateCategoryForm($connection, $user_id, $required_field, $errors);
+    $category_name = isset($_POST['name']) ? trim($_POST['name']) :'';
+    $errors = validateCategoryForm($connection, $user_id, $category_name, $errors);
 
     if(!count($errors)) {
-        addCategory($connection, $user_id, $required_field);
+        addCategory($connection, $user_id, $category_name);
         header("Location: /");
         exit();
     }

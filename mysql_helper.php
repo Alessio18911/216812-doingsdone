@@ -66,9 +66,8 @@ function isCategory($link, int $user_id, string $category_to_insert): int {
 
 function getAllTasksForCategory($link, int $user_id, int $category_id, string $term): array {
     if(!$category_id && $term === "all") {
-        $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
-            JOIN categories ON tasks.category_id = categories.id
-            JOIN users ON categories.user_id = users.id
+        $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+            JOIN users ON tasks.user_id = users.id
             WHERE users.id = ?
             ORDER BY tasks.created_at DESC";
 
@@ -121,9 +120,8 @@ function getTasksForCategory($link, string $expiresAtOperator, int $user_id, int
 }
 
 function getTasksForUser($link, string $expiresAtOperator, int $user_id, string $term): array {
-    $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, categories.name AS categories_name, status FROM tasks
-            JOIN categories ON tasks.category_id = categories.id
-            JOIN users ON categories.user_id = users.id
+    $sql_tasks = "SELECT tasks.id, tasks.name, tasks.created_at, tasks.expires_at, tasks.file_path, status FROM tasks
+            JOIN users ON tasks.user_id = users.id
             WHERE users.id = ? AND tasks.expires_at $expiresAtOperator ?
             ORDER BY tasks.created_at DESC";
 
@@ -131,14 +129,24 @@ function getTasksForUser($link, string $expiresAtOperator, int $user_id, string 
     return fetchData($link, $stmt);
 }
 
-function addTask($link, int $user_id, string $category_id, string $task_name, ?string $expires_at, string $destination) {
-    $sql = "INSERT INTO tasks(user_id, category_id, name, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
+function addTask($link, int $user_id, string $task_name, ?int $category_id, ?string $expires_at, string $destination) {
+    if(null !== $category_id) {
+        $sql = "INSERT INTO tasks(user_id, name, category_id, expires_at, file_path) VALUES(?, ?, ?, ?, ?)";
+        $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $task_name, $category_id, $expires_at, $destination]);
+        $result = mysqli_stmt_execute($stmt);
 
-    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $category_id, $task_name, $expires_at, $destination]);
-    $result = mysqli_stmt_execute($stmt);
+        if(!$result) {
+            die("Ошибка MySQL: " . mysqli_error($link));
+        }
+    } else {
+        $sql = "INSERT INTO tasks(user_id, name, expires_at, file_path) VALUES(?, ?, ?, ?)";
 
-    if(!$result) {
-        die("Ошибка MySQL: " . mysqli_error($link));
+        $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $task_name, $expires_at, $destination]);
+        $result = mysqli_stmt_execute($stmt);
+
+        if(!$result) {
+            die("Ошибка MySQL: " . mysqli_error($link));
+        }
     }
 }
 
