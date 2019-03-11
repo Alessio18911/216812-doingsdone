@@ -1,9 +1,9 @@
 <h2 class="content__main-heading">Список задач</h2>
 
-<form class="search-form" action="index.php" method="post">
-    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
-
+<form class="search-form" action="index.php" method="get">
+    <input class="search-form__input <?= empty($tasks_for_category) ? 'form__input--error': ''; ?>" type="text" name="search" value="" placeholder="Поиск по задачам">
     <input class="search-form__submit" type="submit" name="" value="Искать">
+    <p class="form__message"><?= empty($tasks_for_category) ? "По Вашему запросу ничего не найдено" :''; ?></p>
 </form>
 
 <div class="tasks-controls">
