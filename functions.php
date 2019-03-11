@@ -117,7 +117,7 @@ function validateAuthForm($link, $email, $password, array $errors): array {
     if($email) {
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
-        } elseif(null === getUserByEmail($link, $email)) {
+        } else if(null === getUserByEmail($link, $email)) {
             $errors['email'] = "Пользователь с таким email отсутствует";
         }
     } else {
