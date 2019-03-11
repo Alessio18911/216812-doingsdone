@@ -4,7 +4,7 @@
     <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
         <p class="form__message"><?= isset($errors['name']) ? $errors['name'] :''; ?></p>
-        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $required_field; ?>" placeholder="Введите название">
+        <input class="form__input <?= isset($errors['name']) ? 'form__input--error': ''; ?>" type="text" name="name" id="name" value="<?= $task_name; ?>" placeholder="Введите название">
     </div>
 
     <div class="form__row">
@@ -15,6 +15,7 @@
                 <option value="<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></option>
             <?php endforeach; ?>
         </select>
+        <p class="form__message"><?= isset($errors['project']) ? $errors['project'] :''; ?></p>
     </div>
 
     <div class="form__row">
