@@ -91,19 +91,23 @@ function validateCategoryForm($link, int $user_id, string $required_field, array
     return $errors;
 }
 
-function validateRegisterForm($link, array $required_fields, array $errors): array {
-    foreach($required_fields as $field) {
-        if(!$_POST[$field]) {
-            $errors[$field] = "Это поле должно быть заполнено!";
+function validateRegisterForm($link, string $email, string $password, string $user_name, array $errors): array {
+    if(!$email) {
+        $errors['email'] = "Это поле должно быть заполнено!";
+    } else {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Email введён некорректно";
+        } else if(getUserByEmail($link, $email)) {
+            $errors['email'] = "Данный email уже занят. Введите другой email";
         }
+    }
 
-        if($_POST[$field] && $field === 'email') {
-            if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
-                $errors[$field] = "Email введён некорректно";
-            } elseif(getUserByEmail($link, $_POST[$field])) {
-                $errors[$field] = "Данный email уже занят. Введите другой email";
-            }
-        }
+    if(!$password) {
+        $errors['password'] = "Это поле должно быть заполнено!";
+    }
+
+    if(!$user_name) {
+        $errors['name'] = "Это поле должно быть заполнено!";
     }
 
     if(count($errors)) {
