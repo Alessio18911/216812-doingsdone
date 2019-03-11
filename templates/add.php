@@ -10,6 +10,7 @@
     <div class="form__row">
         <label class="form__label" for="project">Проект</label>
         <select class="form__input form__input--select" name="project" id="project">
+            <option value="">Не выбран</option>
             <?php foreach($category_list as $category): ?>
                 <option value="<?= $category['id']; ?>"><?=htmlspecialchars($category['name']); ?></option>
             <?php endforeach; ?>
