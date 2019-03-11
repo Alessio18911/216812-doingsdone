@@ -18,9 +18,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validateAuthForm($connection, $email, $password, $errors);
 
     if(!count($errors)) {
-        $user = $_SESSION;
-        $user['user'] = getUserByEmail($connection, $email)[0]['name'];
-        $user['user_id'] = getUserByEmail($connection, $email)[0]['id'];
+        $_SESSION['user'] = getUserByEmail($connection, $email)[0]['name'];
+        $_SESSION['user_id'] = getUserByEmail($connection, $email)[0]['id'];
         header("Location: /");
         exit();
     }
