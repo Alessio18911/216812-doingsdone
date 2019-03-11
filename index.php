@@ -18,10 +18,10 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     exit();
 }
 
-// if($_SERVER['REQUEST_METHOD'] === 'GET') {
-//     $search = empty($_GET['search']) ? '' : $_GET['search'];
-//     //$tasks_for_category = getTasksBySearch($connection, $user_id, $search);
-// }
+if($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $search = empty($_GET['search']) ? '' : $_GET['search'];
+    $tasks_for_category = getTasksBySearch($connection, $user_id, $search);
+}
 
 if(!$user) {
     $content = include_template('guest.php', []);
