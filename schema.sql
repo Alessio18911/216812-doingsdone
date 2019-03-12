@@ -29,3 +29,5 @@ CREATE TABLE tasks (
   expires_at DATE NULL DEFAULT NULL,
   file_path CHAR(128)
 );
+
+CREATE FULLTEXT INDEX tasks_ft_search ON tasks(name);
