@@ -68,3 +68,5 @@ SELECT categories.name, tasks.name FROM categories
 UPDATE tasks SET status = 1 WHERE id = 6;
 
 UPDATE tasks SET name = 'Отбить пальцы папеньке крышкой клавесина', expires_at = "2019-03-01" WHERE id = 28;
+
+CREATE FULLTEXT INDEX tasks_ft_search ON tasks(name);

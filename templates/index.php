@@ -1,9 +1,8 @@
 <h2 class="content__main-heading">Список задач</h2>
 
 <form class="search-form" action="index.php" method="get">
-    <input class="search-form__input <?= empty($tasks_for_category) ? 'form__input--error': ''; ?>" type="text" name="search" value="" placeholder="Поиск по задачам">
+    <input class="search-form__input" type="text" name="search" value="<?= ($search AND empty($tasks_for_category)) ? '': $search; ?>" placeholder="Поиск по задачам">
     <input class="search-form__submit" type="submit" name="" value="Искать">
-    <p class="form__message"><?= empty($tasks_for_category) ? "По Вашему запросу ничего не найдено" :''; ?></p>
 </form>
 
 <div class="tasks-controls">
@@ -21,6 +20,9 @@
 </div>
 
 <table class="tasks">
+    <?php if(!empty($_GET['search']) && empty($tasks_for_category)): ?>
+        <p class="form__message">По Вашему запросу ничего не найдено</p>
+    <? endif; ?>
     <?php foreach($tasks_for_category as $task): ?>
     <?php if(!$task['status']): ?>
     <tr class="tasks__item task <?=isTaskExpired($task['expires_at']) ? 'task--important':''; ?>">

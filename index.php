@@ -9,6 +9,7 @@ $category_id = isset($_GET['category']) ? (int)$_GET['category'] : 0;
 $tasks_for_category = getAllTasksForCategory($connection, $user_id, $category_id, $term);
 $category_list = getCategories($connection, $user_id);
 $task_list = getTasks($connection, $user_id);
+$search = '';
 
 
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
@@ -18,8 +19,8 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     exit();
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $search = empty($_GET['search']) ? '' : $_GET['search'];
+if(!empty($_GET['search'])) {
+    $search = $_GET['search'];
     $tasks_for_category = getTasksBySearch($connection, $user_id, $search);
 }
 
@@ -30,7 +31,8 @@ if(!$user) {
         'show_completed'=> $show_completed,
         'tasks_for_category' => $tasks_for_category,
         'category_id' => $category_id,
-        'term' => $term
+        'term' => $term,
+        'search' => $search
     ]);
 }
 
