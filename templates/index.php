@@ -21,7 +21,7 @@
 
 <table class="tasks">
     <?php if(!empty($_GET['search']) && empty($tasks_for_category)): ?>
-        <p class="form__message">По Вашему запросу ничего не найдено</p>
+        <p class="form__message">Ничего не найдено по вашему запросу</p>
     <? endif; ?>
     <?php foreach($tasks_for_category as $task): ?>
     <?php if(!$task['status']): ?>
