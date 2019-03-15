@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Формирует контент из шаблона для вставки на страницу
+ *
+ * @param $name string имя файла шаблона
+ * @param $data array необходимые для заполнения шаблона переменные
+ *
+ * @return string $result контент
+ */
 function include_template(string $name, array $data): string {
     $name = 'templates/' . $name;
     $result = '';
@@ -17,6 +24,14 @@ function include_template(string $name, array $data): string {
     return $result;
 }
 
+/**
+ * Подсчитывает количество задач в 1 проекте
+ *
+ * @param $category_name string имя проекта
+ * @param $task_list array список задач
+ *
+ * @return int $tasks_sum количество задач
+ */
 function countTasks(string $category_name, array $task_list): int {
     $tasks_sum = 0;
 
@@ -27,6 +42,14 @@ function countTasks(string $category_name, array $task_list): int {
     }
     return $tasks_sum;
 }
+
+/**
+ * Определяет время до закрытия задачи
+ *
+ * @param $end_date string установленный пользователем срок закрытия задачи
+ *
+ * @return bool
+ */
 
 function isTaskExpired(string $end_date = null): bool {
     if(!$end_date) {
@@ -40,6 +63,13 @@ function isTaskExpired(string $end_date = null): bool {
     return $time_to_expiry <= 48 && $time_to_expiry > 0;
 }
 
+/**
+ * Форматирует дату после получения из БД перед вставкой её в контент
+ *
+ * @param $date string установленная пользователем дата
+ *
+ * @return string дата в формате д.м.гггг
+ */
 function formatDate(string $date = null): string {
     if (null === $date) {
         return '';
@@ -49,6 +79,13 @@ function formatDate(string $date = null): string {
     return date_format($date, 'd.m.Y');
 }
 
+/**
+ * Сохраняет загруженный при добавлении задачи файл на сервер
+ *
+ * @param $file array сведения о загружаемом файле
+ *
+ * @return string $destination путь доступа к загруженному файлу
+ */
 function savePostedFile(array $file): ?string {
     if(!$file['name']) {
         return null;
@@ -59,6 +96,15 @@ function savePostedFile(array $file): ?string {
     return $destination;
 }
 
+/**
+ * Валидирует форму добавления задачи
+ *
+ * @param $task_name string название задачи
+ * @param $expires_at string срок закрытия задачи
+ * @param $errors array массив для сохранения ошибок
+ *
+ * @return array $errors массив ошибок
+ */
 function validateTaskForm(string $task_name, ?string $expires_at, array $errors): array {
     if(!$task_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
@@ -76,6 +122,16 @@ function validateTaskForm(string $task_name, ?string $expires_at, array $errors)
     return $errors;
 }
 
+/**
+ * Валидирует форму добавления проекта
+ *
+ * @param $link mysqli_connect ресурс соединения с БД
+ * @param $user_id int идентификатор пользователя
+ * @param $category_name string название проекта
+ * @param $errors array массив для сохранения ошибок
+ *
+ * @return array $errors массив ошибок
+ */
 function validateCategoryForm($link, int $user_id, string $category_name, array $errors): array {
     if(!$category_name) {
         $errors['name'] =  'Это поле нужно заполнить!';
@@ -91,6 +147,17 @@ function validateCategoryForm($link, int $user_id, string $category_name, array 
     return $errors;
 }
 
+/**
+ * Валидирует форму регистрации нового пользователя
+ *
+ * @param $link mysqli_connect ресурс соединения с БД
+ * @param $email string email пользователя
+ * @param $password string пароль пользователя
+ * @param $user_name string имя пользователя
+ * @param $errors array массив для сохранения ошибок
+ *
+ * @return array $errors массив ошибок
+ */
 function validateRegisterForm($link, string $email, string $password, string $user_name, array $errors): array {
     if(!$email) {
         $errors['email'] = "Это поле должно быть заполнено!";
@@ -117,7 +184,17 @@ function validateRegisterForm($link, string $email, string $password, string $us
     return $errors;
 }
 
-function validateAuthForm($link, $email, $password, array $errors): array {
+/**
+ * Валидирует форму аутентификации пользователя
+ *
+ * @param $link mysqli_connect ресурс соединения с БД
+ * @param $email string email пользователя
+ * @param $password string пароль пользователя
+ * @param $errors array массив для сохранения ошибок
+ *
+ * @return array $errors массив ошибок
+ */
+function validateAuthForm($link, string $email, string $password, array $errors): array {
     if($email) {
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Email введён некорректно";
@@ -143,6 +220,11 @@ function validateAuthForm($link, $email, $password, array $errors): array {
     return $errors;
 }
 
+/**
+ * Осуществляет выход из аккаунта
+ *
+ * @return undefined
+ */
 function signOut() {
     if(isset($_GET['exit'])) {
         $_SESSION = [];
