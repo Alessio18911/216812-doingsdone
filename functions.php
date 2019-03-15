@@ -5,7 +5,7 @@
  * @param $name string имя файла шаблона
  * @param $data array необходимые для заполнения шаблона переменные
  *
- * @return string $result контент
+ * @return string контент
  */
 function include_template(string $name, array $data): string {
     $name = 'templates/' . $name;
@@ -30,7 +30,7 @@ function include_template(string $name, array $data): string {
  * @param $category_name string имя проекта
  * @param $task_list array список задач
  *
- * @return int $tasks_sum количество задач
+ * @return int количество задач
  */
 function countTasks(string $category_name, array $task_list): int {
     $tasks_sum = 0;
@@ -84,7 +84,7 @@ function formatDate(string $date = null): string {
  *
  * @param $file array сведения о загружаемом файле
  *
- * @return string $destination путь доступа к загруженному файлу
+ * @return string путь доступа к загруженному файлу
  */
 function savePostedFile(array $file): ?string {
     if(!$file['name']) {
@@ -103,7 +103,7 @@ function savePostedFile(array $file): ?string {
  * @param $expires_at string срок закрытия задачи
  * @param $errors array массив для сохранения ошибок
  *
- * @return array $errors массив ошибок
+ * @return array массив ошибок
  */
 function validateTaskForm(string $task_name, ?string $expires_at, array $errors): array {
     if(!$task_name) {
@@ -130,7 +130,7 @@ function validateTaskForm(string $task_name, ?string $expires_at, array $errors)
  * @param $category_name string название проекта
  * @param $errors array массив для сохранения ошибок
  *
- * @return array $errors массив ошибок
+ * @return array массив ошибок
  */
 function validateCategoryForm($link, int $user_id, string $category_name, array $errors): array {
     if(!$category_name) {
@@ -156,7 +156,7 @@ function validateCategoryForm($link, int $user_id, string $category_name, array 
  * @param $user_name string имя пользователя
  * @param $errors array массив для сохранения ошибок
  *
- * @return array $errors массив ошибок
+ * @return array массив ошибок
  */
 function validateRegisterForm($link, string $email, string $password, string $user_name, array $errors): array {
     if(!$email) {
@@ -192,7 +192,7 @@ function validateRegisterForm($link, string $email, string $password, string $us
  * @param $password string пароль пользователя
  * @param $errors array массив для сохранения ошибок
  *
- * @return array $errors массив ошибок
+ * @return array массив ошибок
  */
 function validateAuthForm($link, string $email, string $password, array $errors): array {
     if($email) {
@@ -222,8 +222,6 @@ function validateAuthForm($link, string $email, string $password, array $errors)
 
 /**
  * Осуществляет выход из аккаунта
- *
- * @return void
  */
 function signOut() {
     if(isset($_GET['exit'])) {

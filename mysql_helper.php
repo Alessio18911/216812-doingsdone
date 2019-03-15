@@ -7,7 +7,7 @@
  * @param $password string пароль пользователя
  * @param $database string имя базы данных для работы
  *
- * @return $link mysqli ресурс соединения
+ * @return mysqli ресурс соединения
  */
 
 function getConnection(string $host, string $user, string $password, string $database) {
@@ -87,7 +87,7 @@ function getTasks($link, int $user_id): array {
  * @param $user_id int идентификатор пользователя
  * @param $category_id int идентификатор проекта
  *
- * @return true в случае пустого массива
+ * @return bool
  */
 
 function isCategoryExists($link, int $user_id, int $category_id): bool {
@@ -106,7 +106,7 @@ function isCategoryExists($link, int $user_id, int $category_id): bool {
  * @param $user_id int идентификатор пользователя
  * @param $category_to_insert string имя нового проекта
  *
- * @return int mysqli_num_rows количество строк полученного массива
+ * @return int количество строк полученного массива
  */
 function isCategory($link, int $user_id, string $category_to_insert): int {
     $sql = "SELECT id FROM categories WHERE user_id = ? AND name = ?";
@@ -255,8 +255,6 @@ function getTasksBySearch($link, int $user_id, string $search): array {
  * @param $category_id int идентификатор проекта
  * @param $expires_at string срок выполнения задачи
  * @param $destination string путь к загруженному файлу
- *
- * @return void
  */
 
 function addTask($link, int $user_id, string $task_name, ?int $category_id, ?string $expires_at, string $destination) {
@@ -286,8 +284,6 @@ function addTask($link, int $user_id, string $task_name, ?int $category_id, ?str
  * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $category_name string название проекта
- *
- * @return void
  */
 function addCategory($link, int $user_id, string $category_name) {
     $sql = "INSERT INTO categories(user_id, name) VALUES(?, ?)";
@@ -327,8 +323,6 @@ function getUserByEmail($link, string $email): ?array {
  * @param $user_name string имя пользователя
  * @param $password string пароль пользователя
  * @param $email string email пользователя
- *
- * @return void
  */
 function addUser($link, string $user_name, string $password, string $email) {
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -363,8 +357,6 @@ function getUserPassword($link, string $email): ?string {
  * @param $link mysqli ресурс соединения
  * @param $task_id int идентификатор задачи
  * @param $user_id int идентификатор пользователя
- *
- * @return void
  */
 function toggleTaskStatus($link, int $task_id, int $user_id) {
     $sql = "SELECT status FROM tasks WHERE id = ? AND user_id = ?";
