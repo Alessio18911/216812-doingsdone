@@ -223,7 +223,7 @@ function validateAuthForm($link, string $email, string $password, array $errors)
 /**
  * Осуществляет выход из аккаунта
  *
- * @return undefined
+ * @return void
  */
 function signOut() {
     if(isset($_GET['exit'])) {

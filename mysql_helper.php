@@ -7,7 +7,7 @@
  * @param $password string пароль пользователя
  * @param $database string имя базы данных для работы
  *
- * @return $link mysqli_connect ресурс соединения
+ * @return $link mysqli ресурс соединения
  */
 
 function getConnection(string $host, string $user, string $password, string $database) {
@@ -25,7 +25,7 @@ function getConnection(string $host, string $user, string $password, string $dat
 /**
  * Получение ассоциативного массива из запроса в БД
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $stmt mysqli_stmt подготовленное выражение
  *
  * @return array ассоциативный массив с результатами запроса
@@ -44,7 +44,7 @@ function fetchData($link, $stmt): array {
 /**
  * Получение списка проектов для 1 пользователя
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  *
  * @return array ассоциативный массив с проектами
@@ -63,7 +63,7 @@ function getCategories($link, int $user_id): array {
 /**
  * Получение списка задач для данного пользователя
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  *
  * @return array ассоциативный массив со списком задач
@@ -83,7 +83,7 @@ function getTasks($link, int $user_id): array {
 /**
  * Проверяет существование у данного пользователя проекта с указанным id
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $category_id int идентификатор проекта
  *
@@ -102,11 +102,11 @@ function isCategoryExists($link, int $user_id, int $category_id): bool {
 /**
  * При попытке создать новый проект проверяет существование проекта с таким же именем у данного пользователя
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $category_to_insert string имя нового проекта
  *
- * @return mysqli_num_rows количество строк полученного массива
+ * @return int mysqli_num_rows количество строк полученного массива
  */
 function isCategory($link, int $user_id, string $category_to_insert): int {
     $sql = "SELECT id FROM categories WHERE user_id = ? AND name = ?";
@@ -124,10 +124,10 @@ function isCategory($link, int $user_id, string $category_to_insert): int {
 /**
  * Получает список задач для категории с учётом фильтров по срокам
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
- * @param $$category_id идентификатор проекта
- * @param $term срок закрытия задач
+ * @param $category_id int идентификатор проекта
+ * @param $term string срок закрытия задач
  *
  * @return array массив из задач
  */
@@ -182,11 +182,11 @@ function getAllTasksForCategory($link, int $user_id, int $category_id, string $t
 /**
  * Формирует запрос в БД для получения задач для категорий для функции getAllTasksForCategory()
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
- * @param $category_id идентификатор проекта
- * @param $term срок закрытия задач
- * @param $expiresAtOperator оператор равно/меньше указанного срока
+ * @param $category_id int идентификатор проекта
+ * @param $term string срок закрытия задач
+ * @param $expiresAtOperator string оператор равно/меньше указанного срока
  *
  * @return array массив из задач
  */
@@ -204,7 +204,7 @@ function getTasksForCategory($link, string $expiresAtOperator, int $user_id, int
 /**
  * Получает все задачи для данного пользователя с учётом указанного срока исполнения, нужна для работы функции getAllTasksForCategory()
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $expiresAtOperator string оператор сравнения
  * @param $term string срок исполнения задачи
@@ -225,7 +225,7 @@ function getTasksForUser($link, string $expiresAtOperator, int $user_id, string 
 /**
  * Получает задачи для данного пользователя по словам в форме поиска
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $search string искомые слова
  *
@@ -249,14 +249,14 @@ function getTasksBySearch($link, int $user_id, string $search): array {
 /**
  * Добавляет новую задачу для данного пользователя
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $task_name string название задачи
  * @param $category_id int идентификатор проекта
  * @param $expires_at string срок выполнения задачи
  * @param $destination string путь к загруженному файлу
  *
- * @return undefined
+ * @return void
  */
 
 function addTask($link, int $user_id, string $task_name, ?int $category_id, ?string $expires_at, string $destination) {
@@ -283,11 +283,11 @@ function addTask($link, int $user_id, string $task_name, ?int $category_id, ?str
 /**
  * Добавляет новый проект для данного пользователя
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_id int идентификатор пользователя
  * @param $category_name string название проекта
  *
- * @return undefined
+ * @return void
  */
 function addCategory($link, int $user_id, string $category_name) {
     $sql = "INSERT INTO categories(user_id, name) VALUES(?, ?)";
@@ -302,7 +302,7 @@ function addCategory($link, int $user_id, string $category_name) {
 /**
  * Проверяет существование пользователя в БД
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $email string email пользователя
  *
  * @return array ассоциативный массив с данными пользователя
@@ -323,12 +323,12 @@ function getUserByEmail($link, string $email): ?array {
 /**
  * Добавляет нового пользователя в БД
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $user_name string имя пользователя
  * @param $password string пароль пользователя
  * @param $email string email пользователя
  *
- * @return undefined
+ * @return void
  */
 function addUser($link, string $user_name, string $password, string $email) {
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -340,7 +340,7 @@ function addUser($link, string $user_name, string $password, string $email) {
 /**
  * Получает пароль пользователя по email
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $email string email пользователя
  *
  * @return string пароль пользователя
@@ -360,11 +360,11 @@ function getUserPassword($link, string $email): ?string {
 /**
  * Переключает статус задачи
  *
- * @param $link mysqli_connect ресурс соединения
+ * @param $link mysqli ресурс соединения
  * @param $task_id int идентификатор задачи
  * @param $user_id int идентификатор пользователя
  *
- * @return undefined
+ * @return void
  */
 function toggleTaskStatus($link, int $task_id, int $user_id) {
     $sql = "SELECT status FROM tasks WHERE id = ? AND user_id = ?";
@@ -387,7 +387,7 @@ function toggleTaskStatus($link, int $task_id, int $user_id) {
  *
  * @param $link mysqli Ресурс соединения
  * @param $sql string SQL запрос с плейсхолдерами вместо значений
- * @param array $data Данные для вставки на место плейсхолдеров
+ * @param $data array Данные для вставки на место плейсхолдеров
  *
  * @return mysqli_stmt Подготовленное выражение
  */
